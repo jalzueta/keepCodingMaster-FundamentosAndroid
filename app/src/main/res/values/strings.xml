@@ -6,4 +6,5 @@
     <string name="table_number_title">Mesa número %s</string>
     <string name="action_assign_fellows">Asignar número de comensales</string>
     <string name="action_clean_all">Limpiar todas las mesas</string>
+    <string name="table_list_title">Listado de mesas</string>
 </resources>
