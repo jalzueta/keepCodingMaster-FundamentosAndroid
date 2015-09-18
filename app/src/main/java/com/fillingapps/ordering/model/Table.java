@@ -2,7 +2,7 @@ package com.fillingapps.ordering.model;
 
 import java.util.List;
 
-public class Mesa {
+public class Table {
 
     private int mTableNumber;
     private int mNumberOfFellows;

@@ -10,16 +10,18 @@ public class Plate {
     private String mName;
     private String type;
     private String image;
-    private List<String> mIngredients;
+    private List<Ingredient> mIngredients;
     private List<Allergen> mAllergens;
+    private String mNotes;
 
-    public Plate(int id, String name, String type, String image, List<String> ingredients, List<Allergen> allergens) {
+    public Plate(int id, String name, String type, String image, List<Ingredient> ingredients, List<Allergen> allergens, String notes) {
         mId = id;
         mName = name;
         this.type = type;
         this.image = image;
         mIngredients = ingredients;
         mAllergens = allergens;
+        mNotes = notes;
     }
 
     public int getId() {
@@ -54,11 +56,11 @@ public class Plate {
         this.image = image;
     }
 
-    public List<String> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return mIngredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         mIngredients = ingredients;
     }
 
@@ -68,5 +70,13 @@ public class Plate {
 
     public void setAllergens(List<Allergen> allergens) {
         mAllergens = allergens;
+    }
+
+    public String getNotes() {
+        return mNotes;
+    }
+
+    public void setNotes(String notes) {
+        mNotes = notes;
     }
 }
