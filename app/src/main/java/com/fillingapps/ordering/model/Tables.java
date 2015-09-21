@@ -33,7 +33,7 @@ public class Tables {
     public Tables(Context context) {
         mContext = new WeakReference<>(context);
         mTables = new LinkedList<>();
-        for (int i=1; i<10; i++){
+        for (int i=1; i<15; i++){
             mTables.add(new Table(i));
         }
     }
@@ -87,5 +87,17 @@ public class Tables {
             Intent broadcast = new Intent(TABLE_LIST_CHANGED_ACTION);
             mContext.get().sendBroadcast(broadcast);
         }
+    }
+
+    public int getNumberOfFellowsForTable( int tableNumber) {
+        int numberOfFellows = 0;
+        for (int i=0; i<mTables.size(); i++) {
+            Table table = mTables.get(i);
+            if (table.getTableNumber() == tableNumber){
+                numberOfFellows = table.getNumberOfFellows();
+                break;
+            }
+        }
+        return numberOfFellows;
     }
 }
