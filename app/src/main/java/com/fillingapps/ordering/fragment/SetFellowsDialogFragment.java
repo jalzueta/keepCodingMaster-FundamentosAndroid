@@ -36,7 +36,7 @@ public class SetFellowsDialogFragment extends DialogFragment {
         int numberOfFellows = attrs.getInt(TableListFragment.TABLE_NUMBER);
 
         mNumberOfFellows = (EditText) dialogView.findViewById(R.id.number_of_fellows);
-        mNumberOfFellows.setText(String.valueOf(numberOfFellows));
+        mNumberOfFellows.setHint(String.format(getActivity().getString(R.string.number_of_fellows_hint_format), numberOfFellows == 0 ? 2 : numberOfFellows));
         mTextInputLayout = (TextInputLayout) dialogView.findViewById(R.id.text_input_layout);
         return dialog.create();
     }

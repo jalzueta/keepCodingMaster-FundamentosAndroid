@@ -17,7 +17,7 @@ public class Table {
 
     public Table(int tableNumber) {
         mTableNumber = tableNumber;
-        mNumberOfFellows = 2;
+        mNumberOfFellows = 0;
         mPlates = new LinkedList<>();
     }
 

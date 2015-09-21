@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffe4e4e4">
+
+    <TextView
+        android:id="@+id/table_number"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/table_icon"
+        android:text="1"
+        android:textSize="30sp"
+        android:textColor="@android:color/primary_text_light"
+        android:gravity="center"
+        android:background="#fff2f2f2"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/table_number"
+        android:layout_alignLeft="@+id/table_number"
+        android:layout_alignTop="@+id/table_number"
+        android:layout_alignBottom="@+id/table_number"
+        android:padding="12dp"
+        android:src="@drawable/icon_table"
+        android:alpha="0.05"
+        android:scaleType="centerInside"/>
+
+    <ImageView
+        android:id="@+id/table_icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/table_number"
+        android:padding="25dp"
+        android:src="@drawable/icon_fellows"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:id="@+id/table_number_of_fellows"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/table_icon"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/table_icon"
+        android:text="6"
+        android:textSize="20sp"
+        android:gravity="center_vertical"/>
+
+</RelativeLayout>

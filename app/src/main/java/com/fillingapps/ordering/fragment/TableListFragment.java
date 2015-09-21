@@ -19,11 +19,17 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.model.Tables;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
 
 public class TableListFragment extends Fragment  implements SetFellowsDialogFragment.OnFellowsSetListener{
 
@@ -54,10 +60,7 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
 
         mTables = Tables.getInstance(getActivity());
         mList = (ListView) root.findViewById(android.R.id.list);
-        final ArrayAdapter<Table> adapter = new ArrayAdapter<>(
-                getActivity(),
-                android.R.layout.simple_list_item_1, // Recuerda que esto es el layout de cada fila
-                mTables.getTables());
+        final TableListAdapter adapter = new TableListAdapter(getActivity(), mTables.getTables());
         mList.setAdapter(adapter);
 
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -208,4 +211,29 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
             showAnimation.start();
         }
     }
+
+    class TableListAdapter extends ArrayAdapter<Table> {
+
+        public TableListAdapter(Context context, List<Table> tableList){
+            super(context, R.layout.list_item_table, tableList);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            View tableRow = inflater.inflate(R.layout.list_item_table, parent, false);
+
+            TextView tableNumber = (TextView) tableRow.findViewById(R.id.table_number);
+            TextView tableNumberOfFellows = (TextView) tableRow.findViewById(R.id.table_number_of_fellows);
+
+            Table currentTable = getItem(position);
+            tableNumber.setText(String.valueOf(currentTable.getTableNumber()));
+            tableNumberOfFellows.setText(String.valueOf(currentTable.getNumberOfFellows()));
+
+            return tableRow;
+        }
+    }
+
+
 }
