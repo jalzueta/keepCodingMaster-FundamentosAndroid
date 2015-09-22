@@ -10,17 +10,21 @@ public class Plate {
     private String mName;
     private String type;
     private String image;
+    private String description;
     private List<Ingredient> mIngredients;
     private List<Allergen> mAllergens;
+    private float mPrice;
     private String mNotes;
 
-    public Plate(int id, String name, String type, String image, List<Ingredient> ingredients, List<Allergen> allergens, String notes) {
+    public Plate(int id, String name, String type, String image, String description, List<Ingredient> ingredients, List<Allergen> allergens, float price, String notes) {
         mId = id;
         mName = name;
         this.type = type;
         this.image = image;
+        this.description = description;
         mIngredients = ingredients;
         mAllergens = allergens;
+        mPrice = price;
         mNotes = notes;
     }
 
@@ -78,5 +82,32 @@ public class Plate {
 
     public void setNotes(String notes) {
         mNotes = notes;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public float getPrice() {
+        return mPrice;
+    }
+
+    public void setPrice(float price) {
+        mPrice = price;
+    }
+
+    public String getIngredientsString(){
+        String result = "";
+        if (mIngredients.size() > 0){
+            for (Ingredient ingredient : mIngredients) {
+                result = result + ingredient.getName() + ", ";
+            }
+            return result.substring(0, result.length() - 2);
+        }
+        return result;
     }
 }

@@ -19,15 +19,12 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.model.Tables;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

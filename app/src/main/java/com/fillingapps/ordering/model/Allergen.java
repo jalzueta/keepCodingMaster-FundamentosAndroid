@@ -25,4 +25,9 @@ public class Allergen {
     public void setIcon(String icon) {
         this.mIcon = icon;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

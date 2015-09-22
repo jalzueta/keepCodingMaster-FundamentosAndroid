@@ -12,4 +12,8 @@
     <string name="set_fellows_errors_hint">Por favor, asigna un valor numerico</string>
     <string name="number_of_fellows_format">Número de comensales: %d</string>
     <string name="number_of_fellows_hint_format">p.e.: %d</string>
+    <string name="action_refresh_plates">Refresh plates</string>
+    <string name="ingredients_example">Huevos, marisco, frutos secos</string>
+    <string name="ingredients_title">Ingredientes:</string>
+    <string name="plate_name_example">Ensalada mixta</string>
 </resources>

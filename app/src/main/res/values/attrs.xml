@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PlateView">
+        <attr name="image" format="reference"/>
+        <attr name="name" format="string"/>
+        <attr name="ingredients" format="string"/>
+        <attr name="price" format="float"/>
+    </declare-styleable>
+</resources>
