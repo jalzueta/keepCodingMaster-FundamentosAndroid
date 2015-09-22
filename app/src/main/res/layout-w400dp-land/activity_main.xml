@@ -44,7 +44,7 @@
     </android.support.percent.PercentRelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_table_button"
+        android:id="@+id/add_plate_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_plus"

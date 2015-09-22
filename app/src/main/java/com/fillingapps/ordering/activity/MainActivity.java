@@ -82,37 +82,6 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
         handleFAB();
     }
 
-    private void handleFAB() {
-        if (shouldShowFab && Plates.getInstance().getPlates().size() > 0) {
-            showFAB();
-        } else {
-            hideFAB();
-        }
-    }
-
-    private void showFAB() {
-        Handler showAddButton = new Handler();
-        showAddButton.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mAddPlateButton != null) {
-                    mAddPlateButton.show();
-                }
-            }
-        }, 1000);
-    }
-
-    private void hideFAB() {
-        if (mAddPlateButton != null) {
-            mAddPlateButton.hide();
-        }
-    }
-
-    private void downloadMenu() {
-        AsyncTask<String, Integer, Plates> platesTask = new PlatesDownloader(this);
-        platesTask.execute();
-    }
-
     @Override
     public void onPlatesReceivedListener() {
         Snackbar.make(
@@ -182,6 +151,37 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
             handleFAB();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    private void downloadMenu() {
+        AsyncTask<String, Integer, Plates> platesTask = new PlatesDownloader(this);
+        platesTask.execute();
+    }
+
+    private void handleFAB() {
+        if (shouldShowFab && Plates.getInstance().getPlates().size() > 0) {
+            showFAB();
+        } else {
+            hideFAB();
+        }
+    }
+
+    private void showFAB() {
+        Handler showAddButton = new Handler();
+        showAddButton.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mAddPlateButton != null) {
+                    mAddPlateButton.show();
+                }
+            }
+        }, 1000);
+    }
+
+    private void hideFAB() {
+        if (mAddPlateButton != null) {
+            mAddPlateButton.hide();
         }
     }
 }
