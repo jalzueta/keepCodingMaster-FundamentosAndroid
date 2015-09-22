@@ -121,10 +121,6 @@ public class PlatesDownloader extends AsyncTask<String, Integer, Plates> {
         }
     }
 
-    public void setOnPlatesReceivedListener(OnPlatesReceivedListener onPlatesReceivedListener) {
-        mOnPlatesReceivedListener = new WeakReference<>(onPlatesReceivedListener);
-    }
-
     public interface OnPlatesReceivedListener {
         void onPlatesReceivedListener();
     }

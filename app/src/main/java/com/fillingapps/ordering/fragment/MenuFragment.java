@@ -6,24 +6,27 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.fillingapps.ordering.PlateView;
 import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Plates;
+import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.network.PlatesDownloader;
-
-import android.support.v7.widget.RecyclerView;
 
 public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesReceivedListener{
 
     private RecyclerView mPlateList;
+    private Plate mLongPressPlate;
 
     public static MenuFragment newInstance() {
         return new MenuFragment();
@@ -45,6 +48,8 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         mPlateList = (RecyclerView) root.findViewById(R.id.menu_recycler);
         mPlateList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mPlateList.setItemAnimator(new DefaultItemAnimator());
+
+        registerForContextMenu(mPlateList);
 
         return root;
     }
@@ -72,6 +77,18 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
+
+        if (item.getItemId() == R.id.action_add){
+            // TODO: add plate to table
+        }else{
+            return false;
+        }
+        return true;
     }
 
     private void downloadMenu() {
@@ -109,7 +126,7 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
     }
 
     // ViewHolder que maneja una vista
-    protected class PlatesViewHolder extends RecyclerView.ViewHolder {
+    protected class PlatesViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
         private PlateView mPlateView;
 
 
@@ -117,6 +134,7 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
             super(itemView);
 
             mPlateView = (PlateView) itemView;
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         // Nos asocian el modelo con este ViewHolder
@@ -127,6 +145,14 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
             mPlateView.setPlatePrice(plate.getPrice());
             int iconID = getActivity().getResources().getIdentifier(plate.getImage(), "drawable", getActivity().getPackageName());
             mPlateView.setPlateImage(iconID);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.setHeaderTitle(mLongPressPlate.getName());
+
+            MenuInflater inflater = getActivity().getMenuInflater();
+            inflater.inflate(R.menu.menu_context_plates, menu);
         }
     }
 
@@ -145,9 +171,17 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         }
 
         @Override
-        public void onBindViewHolder(PlatesViewHolder holder, int position) {
+        public void onBindViewHolder(final PlatesViewHolder holder, int position) {
             Plate currentPlate = mPlates.getPlates().get(position);
             holder.bindForecast(currentPlate);
+
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    mLongPressPlate = mPlates.getPlates().get(holder.getAdapterPosition());
+                    return false;
+                }
+            });
         }
 
         @Override
