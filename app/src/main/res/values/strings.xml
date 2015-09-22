@@ -17,4 +17,5 @@
     <string name="ingredients_title">Ingredientes:</string>
     <string name="plate_name_example">Ensalada mixta</string>
     <string name="action_add">Añadir plato</string>
+    <string name="plates_downloaded">El menú ya está disponible</string>
 </resources>

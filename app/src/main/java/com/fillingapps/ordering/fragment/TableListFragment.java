@@ -1,6 +1,7 @@
 package com.fillingapps.ordering.fragment;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -33,6 +34,7 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
     private static String TAG = "Ordering";
     public static String TABLE_NUMBER = "com.fillingapp.ordering.fragment.TableListFragment.TABLE_NUMBER";
 
+    private OnTableSelectedListener mListener;
     private TableBroadcastReceiver mBroadcastReceiver;
 
     private Tables mTables;
@@ -63,9 +65,9 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (mListener != null) {
-//                    mListener.onCitySelected(adapter.getItem(position), position);
-//                }
+                if (mListener != null) {
+                    mListener.onTableSelected(adapter.getItem(position), position);
+                }
             }
         });
 
@@ -77,6 +79,37 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
         registerForContextMenu(mList);
 
         return root;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mListener = (OnTableSelectedListener) getActivity();
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        mListener = (OnTableSelectedListener) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // Dejo de enterarme de cambios en el modelo Cities
+        getActivity().unregisterReceiver(mBroadcastReceiver);
+        mBroadcastReceiver = null;
     }
 
     @Override
@@ -232,5 +265,7 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
         }
     }
 
-
+    public interface OnTableSelectedListener {
+        void onTableSelected (Table table, int index);
+    }
 }
