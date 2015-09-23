@@ -36,6 +36,7 @@ public class TableDetailFragment extends Fragment{
     private TextView mFellowsTextView;
     private TextView mPlatesTextView;
     private TextView mTableNumberTextView;
+    private TextView mNoPlatesTextView;
 
     private static final String ARG_TABLE_NUMBER = "tableNumber";
 
@@ -78,6 +79,7 @@ public class TableDetailFragment extends Fragment{
         mFellowsTextView = (TextView) root.findViewById(R.id.fellows);
         mPlatesTextView = (TextView) root.findViewById(R.id.plates);
         mTableNumberTextView = (TextView) root.findViewById(R.id.table_number);
+        mNoPlatesTextView = (TextView) root.findViewById(R.id.no_plates);
 
         // Suscripcion a la notificacion de cambio en el Singleton "Tables"
         mBroadcastReceiver = new TableDetailBroadcastReceiver();
@@ -127,7 +129,21 @@ public class TableDetailFragment extends Fragment{
         if (mCurrentTable.getPlates().size() > 0) {
             Collections.sort(plates);
             mPlateList.swapAdapter(new PlatesAdapter(plates, getActivity(), R.menu.menu_context_table, null), false);
+            showPlates();
         }
+        else{
+            hidePlates();
+        }
+    }
+
+    private void showPlates() {
+        mNoPlatesTextView.setVisibility(View.GONE);
+        mPlateList.setVisibility(View.VISIBLE);
+    }
+
+    private void hidePlates() {
+        mNoPlatesTextView.setVisibility(View.VISIBLE);
+        mPlateList.setVisibility(View.GONE);
     }
 
     private class TableDetailBroadcastReceiver extends BroadcastReceiver {

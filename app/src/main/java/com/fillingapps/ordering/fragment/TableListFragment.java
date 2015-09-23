@@ -211,10 +211,12 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
 
             TextView tableNumber = (TextView) tableRow.findViewById(R.id.table_number);
             TextView tableNumberOfFellows = (TextView) tableRow.findViewById(R.id.table_number_of_fellows);
+            TextView tableNumberOfPlates = (TextView) tableRow.findViewById(R.id.table_number_of_plates);
 
             Table currentTable = getItem(position);
             tableNumber.setText(String.valueOf(currentTable.getTableNumber()));
             tableNumberOfFellows.setText(String.valueOf(currentTable.getNumberOfFellows()));
+            tableNumberOfPlates.setText(String.valueOf(currentTable.getPlates().size()));
 
             return tableRow;
         }

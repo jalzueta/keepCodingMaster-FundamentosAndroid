@@ -3,7 +3,8 @@
     android:id="@+id/table_detail_fragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffe4e4e4">
 
     <TextView
         android:id="@+id/fellows"
@@ -74,14 +75,23 @@
 
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:layout_width="wrap_content"
+                 android:layout_width="match_parent"
                  android:layout_height="match_parent"
-                 android:layout_below="@id/table_number">
+                 android:layout_below="@id/table_number"
+                 android:background="#ffffffff">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/table_recycler"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/no_plates"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/no_plates_added"
+            android:gravity="center_horizontal|center_vertical"/>
 
     </FrameLayout>
 

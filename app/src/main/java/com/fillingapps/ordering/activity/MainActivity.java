@@ -87,27 +87,8 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
             if (resultCode == RESULT_OK) {
                 // TODO: refresh Tables
                 mSelectedTable = Tables.getInstance(this).getTable(data.getIntExtra(MenuActivity.RESULT_TABLE_NUMBER, 0));
-                refreshFragments();
             }
         }
-    }
-
-    private void refreshFragments() {
-//        FragmentManager fm = getFragmentManager();
-//        // La pantalla esta dividida
-//        if (findViewById(R.id.table_detail) != null) {
-//            // Hay un fragment en el hueco del tipo TableDetailFragment
-//            if (fm.findFragmentById(R.id.table_detail) instanceof TableDetailFragment) {
-//                ((TableDetailFragment)fm.findFragmentById(R.id.table_detail)).updateTable(mSelectedTable);
-//            }
-//        }
-//        else{
-//            if (fm.getBackStackEntryCount() > 0) {
-//                if (fm.findFragmentById(R.id.table_list) instanceof TableDetailFragment) {
-//                    ((TableDetailFragment)fm.findFragmentById(R.id.table_list)).updateTable(mSelectedTable);
-//                }
-//            }
-//        }
     }
 
     @Override
