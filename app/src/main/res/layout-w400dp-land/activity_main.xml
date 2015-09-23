@@ -19,7 +19,7 @@
             />
 
         <FrameLayout android:layout_width="wrap_content"
-                     app:layout_widthPercent="35%"
+                     app:layout_widthPercent="30%"
                      android:layout_height="match_parent"
                      android:id="@+id/table_list"
                      android:layout_below="@+id/toolbar"

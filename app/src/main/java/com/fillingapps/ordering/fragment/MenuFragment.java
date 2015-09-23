@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ import com.fillingapps.ordering.network.PlatesDownloader;
 
 import java.lang.ref.WeakReference;
 
-public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesReceivedListener, PlatesAdapter.OnPlateAdapterPressedListener{
+public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesReceivedListener, PlatesAdapter.OnPlateAdapterPressedListener {
 
     protected WeakReference<OnPlateAddedToTableListener> mOnPlateAddedToTableListener;
     private Plate mPlatePressed;
@@ -48,9 +49,21 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
 
         View root = inflater.inflate(R.layout.fragment_menu, container, false);
 
-        mPlateList = (RecyclerView) root.findViewById(R.id.menu_recycler);
-        mPlateList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mPlateList.setItemAnimator(new DefaultItemAnimator());
+        if (root.findViewById(R.id.menu_recycler_list) != null) {
+            mPlateList = (RecyclerView) root.findViewById(R.id.menu_recycler_list);
+            mPlateList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mPlateList.setItemAnimator(new DefaultItemAnimator());
+        }
+        else if (root.findViewById(R.id.menu_recycler_grid_2) != null){
+            mPlateList = (RecyclerView) root.findViewById(R.id.menu_recycler_grid_2);
+            mPlateList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            mPlateList.setItemAnimator(new DefaultItemAnimator());
+        }
+        else if (root.findViewById(R.id.menu_recycler_grid_3) != null){
+            mPlateList = (RecyclerView) root.findViewById(R.id.menu_recycler_grid_3);
+            mPlateList.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+            mPlateList.setItemAnimator(new DefaultItemAnimator());
+        }
 
         registerForContextMenu(mPlateList);
 
@@ -60,9 +73,9 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
     @Override
     public void onResume() {
         super.onResume();
-        if (Plates.getInstance().getPlates().size() == 0){
+        if (Plates.getInstance().getPlates().size() == 0) {
             downloadMenu();
-        }else{
+        } else {
             setPlates();
         }
     }
@@ -108,12 +121,12 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
     public boolean onContextItemSelected(MenuItem item) {
         super.onContextItemSelected(item);
 
-        if (item.getItemId() == R.id.action_add){
+        if (item.getItemId() == R.id.action_add) {
             // Avisamos a la Activity de que se ha añadido un plato
-            if (mOnPlateAddedToTableListener != null && mOnPlateAddedToTableListener.get() != null){
+            if (mOnPlateAddedToTableListener != null && mOnPlateAddedToTableListener.get() != null) {
                 mOnPlateAddedToTableListener.get().onPlateAddedToTable(mPlatePressed);
             }
-        }else{
+        } else {
             return false;
         }
         return true;
@@ -125,23 +138,39 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         platesTask.execute();
     }
 
-    private void setPlates(){
+    private void setPlates() {
         Plates plates = Plates.getInstance();
-        if (plates.getPlates().size() > 0){
+        if (plates.getPlates().size() > 0) {
             mPlateList.swapAdapter(new PlatesAdapter(plates.getPlates(), getActivity(), R.menu.menu_context_plates, this), false);
         }
     }
 
     public void showLoading() {
         if (getView() != null) {
-            getView().findViewById(R.id.menu_recycler).setVisibility(View.GONE);
+            if (getView().findViewById(R.id.menu_recycler_list) != null){
+                getView().findViewById(R.id.menu_recycler_list).setVisibility(View.GONE);
+            }
+            else if (getView().findViewById(R.id.menu_recycler_grid_2) != null){
+                getView().findViewById(R.id.menu_recycler_grid_2).setVisibility(View.GONE);
+            }
+            else if (getView().findViewById(R.id.menu_recycler_grid_3) != null){
+                getView().findViewById(R.id.menu_recycler_grid_3).setVisibility(View.GONE);
+            }
             getView().findViewById(R.id.loading).setVisibility(View.VISIBLE);
         }
     }
 
     public void showPlates() {
         if (getView() != null) {
-            getView().findViewById(R.id.menu_recycler).setVisibility(View.VISIBLE);
+            if (getView().findViewById(R.id.menu_recycler_list) != null){
+                getView().findViewById(R.id.menu_recycler_list).setVisibility(View.VISIBLE);
+            }
+            else if (getView().findViewById(R.id.menu_recycler_grid_2) != null){
+                getView().findViewById(R.id.menu_recycler_grid_2).setVisibility(View.VISIBLE);
+            }
+            else if (getView().findViewById(R.id.menu_recycler_grid_3) != null){
+                getView().findViewById(R.id.menu_recycler_grid_3).setVisibility(View.VISIBLE);
+            }
             getView().findViewById(R.id.loading).setVisibility(View.GONE);
         }
     }
@@ -158,6 +187,6 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
     }
 
     public interface OnPlateAddedToTableListener {
-        void onPlateAddedToTable (Plate plate);
+        void onPlateAddedToTable(Plate plate);
     }
 }

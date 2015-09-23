@@ -21,4 +21,6 @@
     <string name="notes_example">Ejemplo de anotaciones para un plato en concreto. Alargamos el texto para ver como se adapta.</string>
     <string name="action_delete">Borrar plato</string>
     <string name="no_plates_added">No se ha añadido ningún plato</string>
+    <string name="fellows">comensales</string>
+    <string name="plates">platos</string>
 </resources>

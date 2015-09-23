@@ -24,7 +24,7 @@
         android:layout_marginLeft="15dp"
         android:layout_toRightOf="@id/fellows"
         android:gravity="center_vertical"
-        android:text="comensales"/>
+        android:text="@string/fellows"/>
 
 
     <TextView
@@ -46,7 +46,7 @@
         android:layout_alignTop="@id/plates"
         android:layout_toRightOf="@id/plates"
         android:gravity="center_vertical"
-        android:text="platos"/>
+        android:text="@string/plates"/>
 
     <TextView
         android:id="@+id/table_number"

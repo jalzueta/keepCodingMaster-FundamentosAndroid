@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -73,7 +74,8 @@ public class TableDetailFragment extends Fragment{
 
         // TODO: paint values on screen
         mPlateList = (RecyclerView) root.findViewById(R.id.table_recycler);
-        mPlateList.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        mPlateList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mPlateList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mPlateList.setItemAnimator(new DefaultItemAnimator());
 
         mFellowsTextView = (TextView) root.findViewById(R.id.fellows);
