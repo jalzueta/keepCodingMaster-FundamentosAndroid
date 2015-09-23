@@ -117,6 +117,7 @@ public class Tables {
         for (int i = 0; i < mTables.size(); i++) {
             if (mTables.get(i).isTheSame(table)) {
                 mTables.set(i, table);
+                sendDataSetChangedIntent();
                 break;
             }
         }

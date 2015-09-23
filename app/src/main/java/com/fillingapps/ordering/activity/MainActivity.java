@@ -93,21 +93,21 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
     }
 
     private void refreshFragments() {
-        FragmentManager fm = getFragmentManager();
-        // La pantalla esta dividida
-        if (findViewById(R.id.table_detail) != null) {
-            // Hay un fragment en el hueco del tipo TableDetailFragment
-            if (fm.findFragmentById(R.id.table_detail) instanceof TableDetailFragment) {
-                ((TableDetailFragment)fm.findFragmentById(R.id.table_detail)).updateTable(mSelectedTable);
-            }
-        }
-        else{
-            if (fm.getBackStackEntryCount() > 0) {
-                if (fm.findFragmentById(R.id.table_list) instanceof TableDetailFragment) {
-                    ((TableDetailFragment)fm.findFragmentById(R.id.table_list)).updateTable(mSelectedTable);
-                }
-            }
-        }
+//        FragmentManager fm = getFragmentManager();
+//        // La pantalla esta dividida
+//        if (findViewById(R.id.table_detail) != null) {
+//            // Hay un fragment en el hueco del tipo TableDetailFragment
+//            if (fm.findFragmentById(R.id.table_detail) instanceof TableDetailFragment) {
+//                ((TableDetailFragment)fm.findFragmentById(R.id.table_detail)).updateTable(mSelectedTable);
+//            }
+//        }
+//        else{
+//            if (fm.getBackStackEntryCount() > 0) {
+//                if (fm.findFragmentById(R.id.table_list) instanceof TableDetailFragment) {
+//                    ((TableDetailFragment)fm.findFragmentById(R.id.table_list)).updateTable(mSelectedTable);
+//                }
+//            }
+//        }
     }
 
     @Override
@@ -130,13 +130,15 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
     @Override
     public void onTableSelected(Table table, int index) {
         mSelectedTable = table;
+        FragmentManager fm = getFragmentManager();
         if (findViewById(R.id.table_detail) != null) {
-            //TODO: update table in tableDetailFragment
-            // Se actualiza el fragment de detalle de mesa con los datos de la mesa pulsada
+            // Se carga el fragment de detalle de mesa con los datos de la mesa pulsada
+            if (fm.findFragmentById(R.id.table_detail) != null){
+                ((TableDetailFragment)fm.findFragmentById(R.id.table_detail)).loadTable(mSelectedTable);
+            }
         } else {
             // No existe un hueco "table_detail", por lo que reemplazamos el fragment con la lista
             // mesas por el del detalle de la mesa
-            FragmentManager fm = getFragmentManager();
             fm.beginTransaction()
                     .replace(R.id.table_list, TableDetailFragment.newInstance(mSelectedTable.getTableNumber()))
                     .addToBackStack(null)

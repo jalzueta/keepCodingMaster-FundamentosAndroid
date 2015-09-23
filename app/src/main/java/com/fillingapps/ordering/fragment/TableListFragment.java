@@ -35,7 +35,7 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
     public static String TABLE_NUMBER = "com.fillingapp.ordering.fragment.TableListFragment.TABLE_NUMBER";
 
     private OnTableSelectedListener mListener;
-    private TableBroadcastReceiver mBroadcastReceiver;
+    private TableListBroadcastReceiver mBroadcastReceiver;
 
     private Tables mTables;
     private int mLongPressTableNumber;
@@ -71,7 +71,8 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
             }
         });
 
-        mBroadcastReceiver = new TableBroadcastReceiver(adapter);
+        // Suscripcion a la notificacion de cambio en el Singleton "Tables"
+        mBroadcastReceiver = new TableListBroadcastReceiver(adapter);
         // Me suscribo a notificaciones broadcast
         getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter(Tables.TABLE_LIST_CHANGED_ACTION));
 
@@ -159,25 +160,8 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
         showSetFellowsDialog();
     }
 
-    private class TableBroadcastReceiver extends BroadcastReceiver {
-        private ArrayAdapter mAdapter;
-
-        // Necesito el adapter al que voy a avisar de que hay nuevos datos
-        public TableBroadcastReceiver(ArrayAdapter adapter) {
-            super();
-            mAdapter = adapter;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Hay nuevos cambios, aviso al adaptador para que vuelva a recargarse
-            mAdapter.notifyDataSetChanged();
-        }
-    }
-
     // Set fellows management
     protected void showSetFellowsDialog() {
-//        hideInterfaceBeforeDialog();
         SetFellowsDialogFragment dialog = new SetFellowsDialogFragment();
         Bundle attrs = new Bundle();
         attrs.putInt(TABLE_NUMBER, mTables.getNumberOfFellowsForTable(mLongPressTableNumber));
@@ -190,55 +174,26 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
     public void onFellowsSetListener(SetFellowsDialogFragment dialog, String numberOfFellows) {
         mTables.setNumberOfFellows(Integer.parseInt(numberOfFellows), mLongPressTableNumber);
         dialog.dismiss();
-//        revealInterfaceAfterDialog();
     }
 
     @Override
     public void onFellowsCancelListener(SetFellowsDialogFragment dialog) {
         dialog.dismiss();
-//        revealInterfaceAfterDialog();
     }
 
-    protected  void hideInterfaceBeforeDialog() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            final ListView list = (ListView) getView().findViewById(android.R.id.list);
-            int centerX = list.getWidth() / 2;
-            int centerY = list.getHeight() / 2;
+    private class TableListBroadcastReceiver extends BroadcastReceiver {
+        private ArrayAdapter mAdapter;
 
-            Animator hideAnimation = ViewAnimationUtils.createCircularReveal(list, centerX, centerY, list.getWidth(), 0);
-            hideAnimation.addListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    list.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            });
-            hideAnimation.setDuration(500);
-            hideAnimation.start();
+        // Necesito el adapter al que voy a avisar de que hay nuevos datos
+        public TableListBroadcastReceiver(ArrayAdapter adapter) {
+            super();
+            mAdapter = adapter;
         }
-    }
 
-    protected void revealInterfaceAfterDialog() {
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ListView list = (ListView) getView().findViewById(android.R.id.list);
-            list.setVisibility(View.VISIBLE);
-            Animator showAnimation = ViewAnimationUtils.createCircularReveal(list, 0, 0, 0, Math.max(list.getWidth(), list.getHeight()));
-            showAnimation.setDuration(500);
-            showAnimation.start();
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Hay nuevos cambios, aviso al adaptador para que vuelva a recargarse
+            mAdapter.notifyDataSetChanged();
         }
     }
 

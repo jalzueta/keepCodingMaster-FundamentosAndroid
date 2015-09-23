@@ -4,7 +4,7 @@ import com.fillingapps.ordering.model.Allergen;
 
 import java.util.List;
 
-public class Plate {
+public class Plate implements Comparable<Plate>{
 
     private int mId;
     private String mName;
@@ -109,5 +109,11 @@ public class Plate {
             return result.substring(0, result.length() - 2);
         }
         return result;
+    }
+
+
+    @Override
+    public int compareTo(Plate another) {
+        return ((Integer)getId()).compareTo(another.getId());
     }
 }

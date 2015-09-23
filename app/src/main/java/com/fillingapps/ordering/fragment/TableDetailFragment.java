@@ -1,6 +1,10 @@
 package com.fillingapps.ordering.fragment;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,15 +14,21 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.fillingapps.ordering.adapter.PlatesAdapter;
 import com.fillingapps.ordering.R;
-import com.fillingapps.ordering.model.Plates;
+import com.fillingapps.ordering.adapter.PlatesAdapter;
+import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.model.Tables;
 
+import java.util.Collections;
+import java.util.List;
+
 public class TableDetailFragment extends Fragment{
+
+    private TableDetailBroadcastReceiver mBroadcastReceiver;
 
     private RecyclerView mPlateList;
     private Table mCurrentTable;
@@ -69,9 +79,23 @@ public class TableDetailFragment extends Fragment{
         mPlatesTextView = (TextView) root.findViewById(R.id.plates);
         mTableNumberTextView = (TextView) root.findViewById(R.id.table_number);
 
+        // Suscripcion a la notificacion de cambio en el Singleton "Tables"
+        mBroadcastReceiver = new TableDetailBroadcastReceiver();
+        // Me suscribo a notificaciones broadcast
+        getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter(Tables.TABLE_LIST_CHANGED_ACTION));
+
         setScreenValues();
 
         return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        // Dejo de enterarme de cambios en el modelo Cities
+        getActivity().unregisterReceiver(mBroadcastReceiver);
+        mBroadcastReceiver = null;
     }
 
     @Override
@@ -86,7 +110,7 @@ public class TableDetailFragment extends Fragment{
         return true;
     }
 
-    public void updateTable(Table table){
+    public void loadTable(Table table){
         mCurrentTable = table;
         setScreenValues();
     }
@@ -99,8 +123,25 @@ public class TableDetailFragment extends Fragment{
     }
 
     private void setPlates(){
+        List<Plate> plates = mCurrentTable.getPlates();
         if (mCurrentTable.getPlates().size() > 0) {
-            mPlateList.swapAdapter(new PlatesAdapter(mCurrentTable.getPlates(), getActivity(), R.menu.menu_context_table, null), false);
+            Collections.sort(plates);
+            mPlateList.swapAdapter(new PlatesAdapter(plates, getActivity(), R.menu.menu_context_table, null), false);
+        }
+    }
+
+    private class TableDetailBroadcastReceiver extends BroadcastReceiver {
+
+        // Necesito el adapter al que voy a avisar de que hay nuevos datos
+        public TableDetailBroadcastReceiver() {
+            super();
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Hay nuevos cambios, aviso al adaptador para que vuelva a recargarse
+            mCurrentTable = Tables.getInstance(getActivity()).getTable(mCurrentTable.getTableNumber());
+            setScreenValues();
         }
     }
 }
