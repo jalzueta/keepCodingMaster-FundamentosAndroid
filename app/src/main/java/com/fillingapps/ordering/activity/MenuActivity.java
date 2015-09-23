@@ -1,6 +1,8 @@
 package com.fillingapps.ordering.activity;
 
+import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -9,19 +11,23 @@ import android.view.MenuItem;
 
 import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.fragment.MenuFragment;
+import com.fillingapps.ordering.model.Plate;
+import com.fillingapps.ordering.model.Table;
+import com.fillingapps.ordering.model.Tables;
 
-public class MenuActivity extends AppCompatActivity{
+public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPlateAddedToTableListener {
 
     public static final String EXTRA_TABLE_NUMBER = "com.fillingapps.ordering.activity.MenuActivity.EXTRA_TABLE_NUMBER";
-    private int mSelectedTable;
+    public static final String RESULT_TABLE_NUMBER = "com.fillingapps.ordering.activity.MenuActivity.RESULT_TABLE_NUMBER";
+    private Table mSelectedTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        // REcuperamos el numero de mesa seleccionada
-        mSelectedTable = getIntent().getIntExtra(EXTRA_TABLE_NUMBER, 0);
+        // Recuperamos el numero de mesa seleccionada
+        mSelectedTable = Tables.getInstance(this).getTable(getIntent().getIntExtra(EXTRA_TABLE_NUMBER, 0));
 
         // Asignamos la Toolbar como "ActionBar"
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -46,11 +52,8 @@ public class MenuActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Comprobamos si la opción es la de la flecha "back"
         if (item.getItemId() == android.R.id.home) {
-            // Esto me asegura que finaliza la actividad actual y regresa a la que
-            // hayamos definido en el AndroidManifest.xml
-            NavUtils.navigateUpFromSameTask(this);
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -58,8 +61,27 @@ public class MenuActivity extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        // Esto me asegura que finaliza la actividad actual y regresa a la que
-        // hayamos definido en el AndroidManifest.xml
-        NavUtils.navigateUpFromSameTask(this);
+        FragmentManager fm = getFragmentManager();
+
+        if (fm.getBackStackEntryCount() == 1 && getSupportActionBar() != null) {
+            // Quitamos la flecha de volver
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+
+        // Comprobamos si hay elementos en la pila pendientes de desapilar
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            Tables.getInstance(this).updateTable(mSelectedTable);
+            Intent data = new Intent();
+            data.putExtra(RESULT_TABLE_NUMBER, mSelectedTable.getTableNumber());
+            setResult(Activity.RESULT_OK, data);
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onPlateAddedToTable(Plate plate) {
+        mSelectedTable.addPlate(plate);
     }
 }

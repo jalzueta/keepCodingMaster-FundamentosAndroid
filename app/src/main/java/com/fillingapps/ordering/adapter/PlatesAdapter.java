@@ -1,33 +1,37 @@
-package com.fillingapps.ordering;
+package com.fillingapps.ordering.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fillingapps.ordering.activity.MainActivity;
 import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Plates;
 import com.fillingapps.ordering.view.PlateView;
 
+import java.lang.ref.WeakReference;
+import java.util.List;
+
 
 public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesViewHolder> {
 
+    protected WeakReference<OnPlateAdapterPressedListener> mOnPlateAdapterPressedListener;
+
     // Adaptador de RecyclerView que maneja varios ViewHolder eficientemente
-    private Plates mPlates;
+    private List<Plate> mPlates;
     private Context mContext;
     private int mContextMenuLayoutId;
     private Plate mLongPressPlate;
 
-    public PlatesAdapter(Plates plates, Context context, int contextMenuLayoutId) {
+    public PlatesAdapter(List<Plate> plates, Context context, int contextMenuLayoutId, OnPlateAdapterPressedListener onPlateAdapterPressedListener) {
         super();
         mPlates = plates;
         mContext = context;
         mContextMenuLayoutId = contextMenuLayoutId;
+        mOnPlateAdapterPressedListener = new WeakReference<>(onPlateAdapterPressedListener);
     }
 
     @Override
@@ -37,13 +41,17 @@ public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesView
 
     @Override
     public void onBindViewHolder(final PlatesViewHolder holder, int position) {
-        Plate currentPlate = mPlates.getPlates().get(position);
+        Plate currentPlate = mPlates.get(position);
         holder.bindForecast(currentPlate);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                mLongPressPlate = mPlates.getPlates().get(holder.getAdapterPosition());
+                mLongPressPlate = mPlates.get(holder.getAdapterPosition());
+                if (mOnPlateAdapterPressedListener != null && mOnPlateAdapterPressedListener.get() != null){
+                    // Le pasamos al fragment el plato que ha lanzado el menu contextual
+                    mOnPlateAdapterPressedListener.get().onPlateAdapterLongPressed(mLongPressPlate);
+                }
                 return false;
             }
         });
@@ -51,7 +59,7 @@ public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesView
 
     @Override
     public int getItemCount() {
-        return mPlates.getPlates().size();
+        return mPlates.size();
     }
 
 
@@ -89,5 +97,9 @@ public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesView
                 inflater.inflate(mContextMenuLayoutId, menu);
             }
         }
+    }
+
+    public interface OnPlateAdapterPressedListener{
+        void onPlateAdapterLongPressed(Plate plate);
     }
 }

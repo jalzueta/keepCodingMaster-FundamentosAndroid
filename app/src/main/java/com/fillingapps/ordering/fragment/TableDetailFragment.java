@@ -10,8 +10,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.fillingapps.ordering.PlatesAdapter;
+import com.fillingapps.ordering.adapter.PlatesAdapter;
 import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.model.Plates;
 import com.fillingapps.ordering.model.Table;
@@ -21,6 +22,10 @@ public class TableDetailFragment extends Fragment{
 
     private RecyclerView mPlateList;
     private Table mCurrentTable;
+
+    private TextView mFellowsTextView;
+    private TextView mPlatesTextView;
+    private TextView mTableNumberTextView;
 
     private static final String ARG_TABLE_NUMBER = "tableNumber";
 
@@ -60,6 +65,12 @@ public class TableDetailFragment extends Fragment{
         mPlateList.setLayoutManager(new LinearLayoutManager(getActivity()));
         mPlateList.setItemAnimator(new DefaultItemAnimator());
 
+        mFellowsTextView = (TextView) root.findViewById(R.id.fellows);
+        mPlatesTextView = (TextView) root.findViewById(R.id.plates);
+        mTableNumberTextView = (TextView) root.findViewById(R.id.table_number);
+
+        setScreenValues();
+
         return root;
     }
 
@@ -75,10 +86,21 @@ public class TableDetailFragment extends Fragment{
         return true;
     }
 
+    public void updateTable(Table table){
+        mCurrentTable = table;
+        setScreenValues();
+    }
+
+    private void setScreenValues() {
+        mTableNumberTextView.setText(String.valueOf(mCurrentTable.getTableNumber()));
+        mFellowsTextView.setText(String.valueOf(mCurrentTable.getNumberOfFellows()));
+        mPlatesTextView.setText(String.valueOf(mCurrentTable.getPlates().size()));
+        setPlates();
+    }
+
     private void setPlates(){
-        Plates plates = Plates.getInstance();
-        if (plates.getPlates().size() > 0) {
-            mPlateList.swapAdapter(new PlatesAdapter(plates, getActivity(), R.menu.menu_context_table), false);
+        if (mCurrentTable.getPlates().size() > 0) {
+            mPlateList.swapAdapter(new PlatesAdapter(mCurrentTable.getPlates(), getActivity(), R.menu.menu_context_table, null), false);
         }
     }
 }

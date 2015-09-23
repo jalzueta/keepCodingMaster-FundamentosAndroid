@@ -8,17 +8,20 @@ public class Table {
     private int mTableNumber;
     private int mNumberOfFellows;
     private List<Plate> mPlates;
+    private String mNotes;
 
-    public Table(int tableNumber, int numberOfFellows, List<Plate> plates) {
+    public Table(int tableNumber, int numberOfFellows, List<Plate> plates, String notes) {
         mTableNumber = tableNumber;
         mNumberOfFellows = numberOfFellows;
         mPlates = plates;
+        mNotes = notes;
     }
 
     public Table(int tableNumber) {
         mTableNumber = tableNumber;
         mNumberOfFellows = 0;
         mPlates = new LinkedList<>();
+        mNotes = "";
     }
 
     public int getTableNumber() {
@@ -53,5 +56,21 @@ public class Table {
     @Override
     public String toString() {
         return String.valueOf(getTableNumber()) + ": " +String.valueOf(getNumberOfFellows());
+    }
+
+    public String getNotes() {
+        return mNotes;
+    }
+
+    public void setNotes(String notes) {
+        mNotes = notes;
+    }
+
+    public void addPlate (Plate plate){
+        mPlates.add(plate);
+    }
+
+    public boolean isTheSame (Table table){
+        return this.getTableNumber() == table.getTableNumber();
     }
 }

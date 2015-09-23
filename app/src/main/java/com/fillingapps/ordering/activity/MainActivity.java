@@ -22,6 +22,8 @@ import com.fillingapps.ordering.network.PlatesDownloader;
 
 public class MainActivity extends AppCompatActivity implements PlatesDownloader.OnPlatesReceivedListener, TableListFragment.OnTableSelectedListener {
 
+    static final int RESULT_UPDATED_TABLE = 1;
+
     private FloatingActionButton mAddPlateButton;
     private Table mSelectedTable;
 
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
                 public void onClick(View v) {
                     Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
                     menuIntent.putExtra(MenuActivity.EXTRA_TABLE_NUMBER, mSelectedTable.getTableNumber());
-                    startActivity(menuIntent);
+                    startActivityForResult(menuIntent, RESULT_UPDATED_TABLE);
                 }
             });
 
@@ -74,8 +76,38 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
             }
         }
 
-        // Descargamos le menu (asynctask)
+        // Descargamos el menu (asynctask)
         downloadMenu();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RESULT_UPDATED_TABLE) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                // TODO: refresh Tables
+                mSelectedTable = Tables.getInstance(this).getTable(data.getIntExtra(MenuActivity.RESULT_TABLE_NUMBER, 0));
+                refreshFragments();
+            }
+        }
+    }
+
+    private void refreshFragments() {
+        FragmentManager fm = getFragmentManager();
+        // La pantalla esta dividida
+        if (findViewById(R.id.table_detail) != null) {
+            // Hay un fragment en el hueco del tipo TableDetailFragment
+            if (fm.findFragmentById(R.id.table_detail) instanceof TableDetailFragment) {
+                ((TableDetailFragment)fm.findFragmentById(R.id.table_detail)).updateTable(mSelectedTable);
+            }
+        }
+        else{
+            if (fm.getBackStackEntryCount() > 0) {
+                if (fm.findFragmentById(R.id.table_list) instanceof TableDetailFragment) {
+                    ((TableDetailFragment)fm.findFragmentById(R.id.table_list)).updateTable(mSelectedTable);
+                }
+            }
+        }
     }
 
     @Override

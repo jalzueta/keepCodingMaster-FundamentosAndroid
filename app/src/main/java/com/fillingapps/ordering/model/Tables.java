@@ -112,4 +112,13 @@ public class Tables {
         }
         return desiredTable;
     }
+
+    public void updateTable(Table table){
+        for (int i = 0; i < mTables.size(); i++) {
+            if (mTables.get(i).isTheSame(table)) {
+                mTables.set(i, table);
+                break;
+            }
+        }
+    }
 }

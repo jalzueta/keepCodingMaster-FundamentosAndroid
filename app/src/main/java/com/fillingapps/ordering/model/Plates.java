@@ -24,9 +24,9 @@ public class Plates {
         return mPlates;
     }
 
-    public void setPlates(List<Plate> plates) {
-        mPlates = plates;
-    }
+//    public void setPlates(List<Plate> plates) {
+//        mPlates = plates;
+//    }
 
     public void clearPlates(){
         mPlates = new LinkedList<>();

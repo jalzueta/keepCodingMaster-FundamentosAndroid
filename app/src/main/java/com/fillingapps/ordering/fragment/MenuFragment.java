@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,14 +16,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.fillingapps.ordering.PlatesAdapter;
+import com.fillingapps.ordering.adapter.PlatesAdapter;
 import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Plates;
 import com.fillingapps.ordering.network.PlatesDownloader;
-import com.fillingapps.ordering.view.PlateView;
 
-public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesReceivedListener{
+import java.lang.ref.WeakReference;
+
+public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesReceivedListener, PlatesAdapter.OnPlateAdapterPressedListener{
+
+    protected WeakReference<OnPlateAddedToTableListener> mOnPlateAddedToTableListener;
+    private Plate mPlatePressed;
 
     private RecyclerView mPlateList;
 
@@ -65,6 +68,28 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mOnPlateAddedToTableListener = new WeakReference<OnPlateAddedToTableListener>((OnPlateAddedToTableListener) getActivity());
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        mOnPlateAddedToTableListener = new WeakReference<OnPlateAddedToTableListener>((OnPlateAddedToTableListener) getActivity());
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mOnPlateAddedToTableListener = null;
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_menu_fragment, menu);
@@ -84,7 +109,10 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         super.onContextItemSelected(item);
 
         if (item.getItemId() == R.id.action_add){
-            // TODO: add plate to table
+            // Avisamos a la Activity de que se ha añadido un plato
+            if (mOnPlateAddedToTableListener != null && mOnPlateAddedToTableListener.get() != null){
+                mOnPlateAddedToTableListener.get().onPlateAddedToTable(mPlatePressed);
+            }
         }else{
             return false;
         }
@@ -100,7 +128,7 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
     private void setPlates(){
         Plates plates = Plates.getInstance();
         if (plates.getPlates().size() > 0){
-            mPlateList.swapAdapter(new PlatesAdapter(plates, getActivity(), R.menu.menu_context_plates), false);
+            mPlateList.swapAdapter(new PlatesAdapter(plates.getPlates(), getActivity(), R.menu.menu_context_plates, this), false);
         }
     }
 
@@ -120,8 +148,16 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
 
     @Override
     public void onPlatesReceivedListener() {
-        // TODO:refresh table
         setPlates();
         showPlates();
+    }
+
+    @Override
+    public void onPlateAdapterLongPressed(Plate plate) {
+        mPlatePressed = plate;
+    }
+
+    public interface OnPlateAddedToTableListener {
+        void onPlateAddedToTable (Plate plate);
     }
 }
