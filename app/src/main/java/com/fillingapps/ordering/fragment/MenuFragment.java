@@ -1,6 +1,8 @@
 package com.fillingapps.ordering.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,19 +16,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
-import com.fillingapps.ordering.PlateView;
+import com.fillingapps.ordering.PlatesAdapter;
 import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Plates;
-import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.network.PlatesDownloader;
+import com.fillingapps.ordering.view.PlateView;
 
 public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesReceivedListener{
 
     private RecyclerView mPlateList;
-    private Plate mLongPressPlate;
 
     public static MenuFragment newInstance() {
         return new MenuFragment();
@@ -100,7 +100,7 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
     private void setPlates(){
         Plates plates = Plates.getInstance();
         if (plates.getPlates().size() > 0){
-            mPlateList.swapAdapter(new PlatesAdapter(plates), false);
+            mPlateList.swapAdapter(new PlatesAdapter(plates, getActivity(), R.menu.menu_context_plates), false);
         }
     }
 
@@ -124,70 +124,4 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         setPlates();
         showPlates();
     }
-
-    // ViewHolder que maneja una vista
-    protected class PlatesViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
-        private PlateView mPlateView;
-
-
-        public PlatesViewHolder(View itemView) {
-            super(itemView);
-
-            mPlateView = (PlateView) itemView;
-            itemView.setOnCreateContextMenuListener(this);
-        }
-
-        // Nos asocian el modelo con este ViewHolder
-        public void bindForecast(final Plate plate) {
-
-            mPlateView.setPlateName(plate.getName());
-            mPlateView.setPlateIngredients(plate.getIngredientsString());
-            mPlateView.setPlatePrice(plate.getPrice());
-            int iconID = getActivity().getResources().getIdentifier(plate.getImage(), "drawable", getActivity().getPackageName());
-            mPlateView.setPlateImage(iconID);
-        }
-
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.setHeaderTitle(mLongPressPlate.getName());
-
-            MenuInflater inflater = getActivity().getMenuInflater();
-            inflater.inflate(R.menu.menu_context_plates, menu);
-        }
-    }
-
-    // Adaptador de RecyclerView que maneja varios ViewHolder eficientemente
-    protected class PlatesAdapter extends RecyclerView.Adapter<PlatesViewHolder> {
-        private Plates mPlates;
-
-        public PlatesAdapter(Plates plates) {
-            super();
-            mPlates = plates;
-        }
-
-        @Override
-        public PlatesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new PlatesViewHolder(new PlateView(getActivity()));
-        }
-
-        @Override
-        public void onBindViewHolder(final PlatesViewHolder holder, int position) {
-            Plate currentPlate = mPlates.getPlates().get(position);
-            holder.bindForecast(currentPlate);
-
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    mLongPressPlate = mPlates.getPlates().get(holder.getAdapterPosition());
-                    return false;
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return mPlates.getPlates().size();
-        }
-    }
-
 }

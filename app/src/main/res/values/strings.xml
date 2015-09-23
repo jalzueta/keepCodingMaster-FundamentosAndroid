@@ -18,4 +18,6 @@
     <string name="plate_name_example">Ensalada mixta</string>
     <string name="action_add">Añadir plato</string>
     <string name="plates_downloaded">El menú ya está disponible</string>
+    <string name="notes_example">Ejemplo de anotaciones para un plato en concreto. Alargamos el texto para ver como se adapta.</string>
+    <string name="action_delete">Borrar plato</string>
 </resources>

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -37,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //Inicializamos la mesa seleccionada con la primera mesa disponible
         mSelectedTable = Tables.getInstance(this).getTables().get(0);
 
         // Obtenemos la referencia al FAB para decirle qué pasa si lo pulsan
@@ -46,8 +46,7 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
                 @Override
                 public void onClick(View v) {
                     Intent menuIntent = new Intent(MainActivity.this, MenuActivity.class);
-                    // TODO: pass table number to MenuActivity
-//                    menuIntent.putExtra(MenuActivity.EXTRA_TABLE_NUMBER, index);
+                    menuIntent.putExtra(MenuActivity.EXTRA_TABLE_NUMBER, mSelectedTable.getTableNumber());
                     startActivity(menuIntent);
                 }
             });
@@ -55,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
             mAddPlateButton.setVisibility(View.GONE);
         }
 
+        //Insertamos el fragment con la lista de mesas
         FragmentManager fm = getFragmentManager();
         if (findViewById(R.id.table_list) != null) {
             if (fm.findFragmentById(R.id.table_list) == null) {
@@ -64,15 +64,17 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
             }
         }
 
+        //Insertamos el fragment con el detalle de la mesa seleccionada (si existe el FrameLayout "table_detail" en el xml de layout)
         if (findViewById(R.id.table_detail) != null) {
             if (fm.findFragmentById(R.id.table_detail) == null) {
                 fm.beginTransaction()
-                        .add(R.id.table_detail, TableDetailFragment.newInstance(mSelectedTable))
+                        .add(R.id.table_detail, TableDetailFragment.newInstance(mSelectedTable.getTableNumber()))
                         .commit();
                 shouldShowFab = true;
             }
         }
 
+        // Descargamos le menu (asynctask)
         downloadMenu();
     }
 
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
 
     @Override
     public void onPlatesReceivedListener() {
+        // Vuelta del AsyncTask al terminar de descargar los platos
         Snackbar.make(
                 findViewById(R.id.coordinator),
                 R.string.plates_downloaded,
@@ -97,10 +100,13 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
         mSelectedTable = table;
         if (findViewById(R.id.table_detail) != null) {
             //TODO: update table in tableDetailFragment
+            // Se actualiza el fragment de detalle de mesa con los datos de la mesa pulsada
         } else {
+            // No existe un hueco "table_detail", por lo que reemplazamos el fragment con la lista
+            // mesas por el del detalle de la mesa
             FragmentManager fm = getFragmentManager();
             fm.beginTransaction()
-                    .replace(R.id.table_list, TableDetailFragment.newInstance(mSelectedTable))
+                    .replace(R.id.table_list, TableDetailFragment.newInstance(mSelectedTable.getTableNumber()))
                     .addToBackStack(null)
                     .commit();
             if (getSupportActionBar() != null) {
@@ -155,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
     }
 
     private void downloadMenu() {
+        // Le estamos pasando al AsyncTask el listener en el constructor (this)
         AsyncTask<String, Integer, Plates> platesTask = new PlatesDownloader(this);
         platesTask.execute();
     }

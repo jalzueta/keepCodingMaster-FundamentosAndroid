@@ -12,11 +12,16 @@ import com.fillingapps.ordering.fragment.MenuFragment;
 
 public class MenuActivity extends AppCompatActivity{
 
+    public static final String EXTRA_TABLE_NUMBER = "com.fillingapps.ordering.activity.MenuActivity.EXTRA_TABLE_NUMBER";
+    private int mSelectedTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        // REcuperamos el numero de mesa seleccionada
+        mSelectedTable = getIntent().getIntExtra(EXTRA_TABLE_NUMBER, 0);
 
         // Asignamos la Toolbar como "ActionBar"
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -28,6 +33,7 @@ public class MenuActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        // Insertamos el fragment con la lista de platos
         FragmentManager fm = getFragmentManager();
         if (findViewById(R.id.menu_list) != null) {
             if (fm.findFragmentById(R.id.menu_list) == null) {
@@ -50,9 +56,10 @@ public class MenuActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public void onBackPressed() {
+        // Esto me asegura que finaliza la actividad actual y regresa a la que
+        // hayamos definido en el AndroidManifest.xml
         NavUtils.navigateUpFromSameTask(this);
     }
 }

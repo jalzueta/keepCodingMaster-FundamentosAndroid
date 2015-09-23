@@ -16,7 +16,7 @@ public class Tables {
 
     private List<Table> mTables;
 
-    public static Tables getInstance(Context context){
+    public static Tables getInstance(Context context) {
         if (ourInstance == null || ourInstance.mContext.get() == null) {
             if (ourInstance == null) {
                 // 2) No tenemos la instancia, vamos a crearla a partir de las preferencias
@@ -33,7 +33,7 @@ public class Tables {
     public Tables(Context context) {
         mContext = new WeakReference<>(context);
         mTables = new LinkedList<>();
-        for (int i=1; i<15; i++){
+        for (int i = 1; i < 15; i++) {
             mTables.add(new Table(i));
         }
     }
@@ -42,8 +42,8 @@ public class Tables {
         return mTables;
     }
 
-    public void cleanAllTables(){
-        for (int i=0; i<mTables.size(); i++) {
+    public void cleanAllTables() {
+        for (int i = 0; i < mTables.size(); i++) {
             Table table = mTables.get(i);
             table.cleanTable();
             mTables.set(i, table);
@@ -51,10 +51,10 @@ public class Tables {
         sendDataSetChangedIntent();
     }
 
-    public void cleanTable(int tableNumber){
-        for (int i=0; i<mTables.size(); i++) {
+    public void cleanTable(int tableNumber) {
+        for (int i = 0; i < mTables.size(); i++) {
             Table table = mTables.get(i);
-            if (table.getTableNumber() == tableNumber){
+            if (table.getTableNumber() == tableNumber) {
                 table.cleanTable();
                 mTables.set(i, table);
                 sendDataSetChangedIntent();
@@ -62,20 +62,20 @@ public class Tables {
         }
     }
 
-    public void deleteTable(int tableNumber){
-        for (int i=0; i<mTables.size(); i++) {
+    public void deleteTable(int tableNumber) {
+        for (int i = 0; i < mTables.size(); i++) {
             Table table = mTables.get(i);
-            if (table.getTableNumber() == tableNumber){
+            if (table.getTableNumber() == tableNumber) {
                 mTables.remove(i);
                 sendDataSetChangedIntent();
             }
         }
     }
 
-    public void setNumberOfFellows (int numberOfFellows, int tableNumber){
-        for (int i=0; i<mTables.size(); i++) {
+    public void setNumberOfFellows(int numberOfFellows, int tableNumber) {
+        for (int i = 0; i < mTables.size(); i++) {
             Table table = mTables.get(i);
-            if (table.getTableNumber() == tableNumber){
+            if (table.getTableNumber() == tableNumber) {
                 table.setNumberOfFellows(numberOfFellows);
                 sendDataSetChangedIntent();
             }
@@ -89,15 +89,27 @@ public class Tables {
         }
     }
 
-    public int getNumberOfFellowsForTable( int tableNumber) {
+    public int getNumberOfFellowsForTable(int tableNumber) {
         int numberOfFellows = 0;
-        for (int i=0; i<mTables.size(); i++) {
+        for (int i = 0; i < mTables.size(); i++) {
             Table table = mTables.get(i);
-            if (table.getTableNumber() == tableNumber){
+            if (table.getTableNumber() == tableNumber) {
                 numberOfFellows = table.getNumberOfFellows();
                 break;
             }
         }
         return numberOfFellows;
+    }
+
+    public Table getTable(int tableNumber) {
+        Table desiredTable = null;
+        for (int i = 0; i < mTables.size(); i++) {
+            Table table = mTables.get(i);
+            if (table.getTableNumber() == tableNumber) {
+                desiredTable = table;
+                break;
+            }
+        }
+        return desiredTable;
     }
 }
