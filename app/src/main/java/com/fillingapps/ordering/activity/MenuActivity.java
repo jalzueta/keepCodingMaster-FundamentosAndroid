@@ -18,6 +18,8 @@ import com.fillingapps.ordering.model.Tables;
 
 public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPlateAddedToTableListener, MenuFragment.OnPlateSelectedListener {
 
+    static final int RESULT_PLATE_ADDED = 2;
+
     public static final String EXTRA_TABLE_NUMBER = "com.fillingapps.ordering.activity.MenuActivity.EXTRA_TABLE_NUMBER";
     public static final String RESULT_TABLE_NUMBER = "com.fillingapps.ordering.activity.MenuActivity.RESULT_TABLE_NUMBER";
     private Table mSelectedTable;
@@ -48,6 +50,15 @@ public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPl
                         .add(R.id.menu_list, MenuFragment.newInstance())
                         .commit();
             }
+        }
+    }
+
+    @Override
+    // Cuando se ha añadido un plato desde el detalle del plato
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Make sure the request was successful
+        if (resultCode == RESULT_OK) {
+            showSnackBarPlateAdded();
         }
     }
 
@@ -84,6 +95,10 @@ public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPl
     @Override
     public void onPlateAddedToTable(Plate plate, String notes) {
         mSelectedTable.addPlate(plate, notes);
+        showSnackBarPlateAdded();
+    }
+
+    private void showSnackBarPlateAdded() {
         Snackbar.make(
                 findViewById(R.id.menu_list),
                 R.string.plate_added_snackbar_message,
@@ -94,6 +109,7 @@ public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPl
     public void onPlateSelectedListener(Plate plate) {
         Intent menuIntent = new Intent(this, PlateDetailActivity.class);
         menuIntent.putExtra(PlateDetailActivity.EXTRA_PLATE, plate);
-        startActivity(menuIntent);
+        menuIntent.putExtra(EXTRA_TABLE_NUMBER, mSelectedTable);
+        startActivityForResult(menuIntent, RESULT_PLATE_ADDED);
     }
 }

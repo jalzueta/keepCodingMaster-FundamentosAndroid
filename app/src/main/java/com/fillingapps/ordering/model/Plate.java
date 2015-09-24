@@ -120,9 +120,20 @@ public class Plate implements Serializable, Comparable<Plate>{
         return result;
     }
 
+    public String getAllergensString(){
+        String result = "";
+        if (mAllergens.size() > 0){
+            for (Allergen allergen : mAllergens) {
+                result = result + allergen.getName() + ", ";
+            }
+            return result.substring(0, result.length() - 2);
+        }
+        return result;
+    }
+
     @Override
     public int compareTo(Plate another) {
-        return ((Integer)getId()).compareTo(another.getId());
+        return ((Integer)getMenuId()).compareTo(another.getMenuId());
     }
 
 

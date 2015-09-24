@@ -29,7 +29,6 @@
         app:borderWidth="0dp"
         app:elevation="@dimen/fab_elevation"
         app:layout_anchor="@id/plate_detail"
-        app:layout_anchorGravity="bottom|center"
-        />
+        app:layout_anchorGravity="bottom|right|end"/>
 
 </android.support.design.widget.CoordinatorLayout>

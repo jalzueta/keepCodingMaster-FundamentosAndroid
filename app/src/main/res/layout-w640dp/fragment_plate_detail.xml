@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/activity_horizontal_margin"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
@@ -14,99 +13,140 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="10dp"
+        android:background="#ffdddddd"
         android:gravity="center_horizontal"
+        android:padding="@dimen/activity_horizontal_margin"
         android:text="@string/plate_title_example"
         android:textSize="20sp"/>
 
-    <!--android.support.percent.Percent-->
-
-    <android.support.percent.PercentRelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/plate_detail_title"
-        android:layout_above="@+id/detail_plate_notes_title">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/plate_detail_notes_group"
+        android:layout_below="@+id/plate_detail_title">
 
-        <ImageView
-            android:id="@+id/plate_detail_image"
-            android:layout_width="wrap_content"
-            android:layout_height="200dp"
-            app:layout_widthPercent="65%"
-            android:src="@drawable/no_image_big"
-            android:scaleType="fitCenter"/>
+        <android.support.percent.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/plate_detail_image"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/no_image_big"
+                app:layout_widthPercent="65%"/>
+
+            <TextView
+                android:id="@+id/plate_detail_allergens_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/plate_detail_image"
+                android:layout_below="@+id/plate_detail_image"
+                android:layout_marginTop="15dp"
+                android:gravity="right"
+                android:text="@string/allergens_title"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/plate_detail_allergens"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignRight="@+id/plate_detail_allergens_title"
+                android:layout_below="@+id/plate_detail_allergens_title"
+                android:layout_marginTop="5dp"
+                android:gravity="right"
+                android:text="@string/allergens_example"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/plate_detail_ingredients_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/plate_detail_image"
+                android:layout_toRightOf="@+id/plate_detail_image"
+                android:gravity="left"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="@string/ingredients_title"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+            <ListView
+                android:id="@android:id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/plate_detail_image"
+                android:layout_alignLeft="@+id/plate_detail_ingredients_title"
+                android:layout_below="@+id/plate_detail_ingredients_title"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:nestedScrollingEnabled="true"/>
+
+            <TextView
+                android:id="@+id/plate_detail_description_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/plate_detail_allergens"
+                android:layout_marginTop="15dp"
+                android:gravity="left"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="@string/plate_description_title"
+                android:textSize="12sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/plate_detail_description"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignRight="@+id/plate_detail_description_title"
+                android:layout_below="@+id/plate_detail_description_title"
+                android:layout_marginTop="5dp"
+                android:gravity="left"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:text="@string/plate_description"
+                android:textSize="13sp"/>
+
+        </android.support.percent.PercentRelativeLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/plate_detail_notes_group"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true">
 
         <TextView
-            android:id="@+id/plate_allergens_title"
+            android:id="@+id/plate_detail_notes_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/plate_detail_image"
-            android:layout_alignRight="@+id/plate_detail_image"
-            android:layout_marginTop="15dp"
-            android:gravity="right"
-            android:text="@string/allergens_title"
-            android:textSize="12sp"/>
-
-        <TextView
-            android:id="@+id/plate_allergens"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/plate_allergens_title"
-            android:layout_alignRight="@+id/plate_allergens_title"
-            android:layout_marginTop="5dp"
-            android:gravity="right"
-            android:text="@string/allergens_example"
-            android:textSize="12sp"/>
-
-        <TextView
-            android:id="@+id/plate_ingredients_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/plate_detail_image"
+            android:layout_height="30dp"
+            android:layout_above="@+id/plate_detail_notes"
+            android:background="#ffdddddd"
             android:gravity="left"
-            android:text="@string/ingredients_title"
-            android:textSize="12sp"/>
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/plate_ingredients_title"
-            android:layout_below="@+id/plate_ingredients_title"
-            android:layout_alignBottom="@+id/plate_detail_image"/>
+            android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="5dp"
+            android:text="@string/plate_notes_title"
+            android:textSize="12sp"
+            android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/plate_description_title"
+        <EditText
+            android:id="@+id/plate_detail_notes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/plate_allergens"
-            android:layout_marginTop="15dp"
-            android:gravity="left"
-            android:text="@string/plate_description_title"
-            android:textSize="12sp"/>
-        <TextView
-            android:id="@+id/plate_description"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@+id/plate_description_title"
-            android:layout_alignRight="@+id/plate_description_title"
-            android:layout_marginTop="5dp"
-            android:gravity="left"
-            android:text="@string/plate_description"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="#ffdddddd"
+            android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="50dp"
+            android:paddingTop="5dp"
             android:textSize="13sp"/>
 
-    </android.support.percent.PercentRelativeLayout>
-
-    <TextView
-        android:id="@+id/detail_plate_notes_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/detail_plate_notes"
-        android:layout_marginTop="10dp"
-        android:gravity="left"
-        android:text="@string/plate_notes_title"
-        android:textSize="12sp"/>
-    <EditText
-        android:id="@+id/detail_plate_notes"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
 
 </RelativeLayout>

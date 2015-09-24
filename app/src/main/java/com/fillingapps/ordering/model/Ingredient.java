@@ -17,4 +17,9 @@ public class Ingredient implements Serializable {
     public void setName(String name) {
         mName = name;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

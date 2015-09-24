@@ -1,6 +1,8 @@
 package com.fillingapps.ordering.activity;
 
+import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,8 @@ import android.view.View;
 import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.fragment.PlateDetailFragment;
 import com.fillingapps.ordering.model.Plate;
+import com.fillingapps.ordering.model.Table;
+import com.fillingapps.ordering.model.Tables;
 
 public class PlateDetailActivity extends AppCompatActivity {
 
@@ -18,6 +22,7 @@ public class PlateDetailActivity extends AppCompatActivity {
 
     private FloatingActionButton mAddPlateButton;
     private Plate mPlate;
+    private Table mSelectedTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +39,9 @@ public class PlateDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        // TODO get plate from bundle arguments
+        // Get plate/table from bundle arguments
         mPlate = (Plate) getIntent().getSerializableExtra(EXTRA_PLATE);
+        mSelectedTable = (Table) getIntent().getSerializableExtra(MenuActivity.EXTRA_TABLE_NUMBER);
 
         // Obtenemos la referencia al FAB para decirle qué pasa si lo pulsan
         mAddPlateButton = (FloatingActionButton) findViewById(R.id.add_plate_button);
@@ -43,10 +49,15 @@ public class PlateDetailActivity extends AppCompatActivity {
             mAddPlateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO: añadir plato a la mesa y volver a lista de platos del menu
+                    //Añadir plato a la mesa
+                    Tables.getInstance(PlateDetailActivity.this).getTable(mSelectedTable.getTableNumber()).addPlate(mPlate);
+
+                    //Volver a lista de platos del menu: avisando a menuActivity
+                    Intent data = new Intent();
+                    setResult(Activity.RESULT_OK, data);
+                    PlateDetailActivity.this.onBackPressed();
                 }
             });
-            mAddPlateButton.setVisibility(View.GONE);
         }
 
         //Insertamos el fragment con el detalle del plato

@@ -1,10 +1,11 @@
 package com.fillingapps.ordering.model;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Table implements Comparable<Table>{
+public class Table implements Serializable, Comparable<Table>{
 
     private int mTableNumber;
     private int mNumberOfFellows;
@@ -66,6 +67,11 @@ public class Table implements Comparable<Table>{
 
     public void setNotes(String notes) {
         mNotes = notes;
+    }
+
+    public void addPlate (Plate plate){
+        plate.setId(mPlates.size()+1);
+        mPlates.add(plate);
     }
 
     public void addPlate (Plate plate, String notes){
