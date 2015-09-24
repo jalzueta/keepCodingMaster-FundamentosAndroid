@@ -28,6 +28,7 @@ import java.lang.ref.WeakReference;
 public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesReceivedListener, PlatesAdapter.OnPlateAdapterPressedListener, SetPlateNotesDialogFragment.OnPlateNotesSetListener {
 
     protected WeakReference<OnPlateAddedToTableListener> mOnPlateAddedToTableListener;
+    protected WeakReference<OnPlateSelectedListener> mOnPlateSelectedListener;
     private Plate mPlatePressed;
 
     private RecyclerView mPlateList;
@@ -85,6 +86,7 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         super.onAttach(context);
 
         mOnPlateAddedToTableListener = new WeakReference<OnPlateAddedToTableListener>((OnPlateAddedToTableListener) getActivity());
+        mOnPlateSelectedListener = new WeakReference<OnPlateSelectedListener>((OnPlateSelectedListener) getActivity());
     }
 
     @SuppressWarnings("deprecation")
@@ -93,6 +95,7 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         super.onAttach(activity);
 
         mOnPlateAddedToTableListener = new WeakReference<OnPlateAddedToTableListener>((OnPlateAddedToTableListener) getActivity());
+        mOnPlateSelectedListener = new WeakReference<OnPlateSelectedListener>((OnPlateSelectedListener) getActivity());
     }
 
     @Override
@@ -100,6 +103,7 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         super.onDetach();
 
         mOnPlateAddedToTableListener = null;
+        mOnPlateSelectedListener = null;
     }
 
     @Override
@@ -195,6 +199,12 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
     }
 
     @Override
+    public void onPlateAdapterPressed(Plate plate) {
+        // Avisamos a la Activity de que se ha seleccionado un plato, para ver el detalle
+        mOnPlateSelectedListener.get().onPlateSelectedListener(plate);
+    }
+
+    @Override
     public void onPlateNotesSetListener(SetPlateNotesDialogFragment dialog, String plateNotes) {
         // Avisamos a la Activity de que se ha añadido un plato
         if (mOnPlateAddedToTableListener != null && mOnPlateAddedToTableListener.get() != null) {
@@ -210,5 +220,9 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
 
     public interface OnPlateAddedToTableListener {
         void onPlateAddedToTable(Plate plate, String notes);
+    }
+
+    public interface OnPlateSelectedListener {
+        void onPlateSelectedListener(Plate plate);
     }
 }

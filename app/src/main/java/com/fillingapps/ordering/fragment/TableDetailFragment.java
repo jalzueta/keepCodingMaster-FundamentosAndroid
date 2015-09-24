@@ -176,4 +176,9 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
     public void onPlateAdapterLongPressed(Plate plate) {
         mPlatePressed = plate;
     }
+
+    @Override
+    public void onPlateAdapterPressed(Plate plate) {
+
+    }
 }

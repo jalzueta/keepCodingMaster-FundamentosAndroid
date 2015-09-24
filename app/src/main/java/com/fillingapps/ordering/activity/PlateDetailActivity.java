@@ -14,8 +14,10 @@ import com.fillingapps.ordering.model.Plate;
 
 public class PlateDetailActivity extends AppCompatActivity {
 
+    public static final String EXTRA_PLATE = "com.fillingapps.ordering.activity.PlateDetailActivity.EXTRA_PLATE";
+
     private FloatingActionButton mAddPlateButton;
-    private Plate mCurrentPlate;
+    private Plate mPlate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +28,14 @@ public class PlateDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Ponemos la flecha de volver porque esta actividad siempre
+        // viene de otra
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
         // TODO get plate from bundle arguments
+        mPlate = (Plate) getIntent().getSerializableExtra(EXTRA_PLATE);
 
         // Obtenemos la referencia al FAB para decirle qué pasa si lo pulsan
         mAddPlateButton = (FloatingActionButton) findViewById(R.id.add_plate_button);
@@ -45,7 +54,7 @@ public class PlateDetailActivity extends AppCompatActivity {
         if (findViewById(R.id.plate_detail) != null) {
             if (fm.findFragmentById(R.id.plate_detail) == null) {
                 fm.beginTransaction()
-                        .add(R.id.plate_detail, PlateDetailFragment.newInstance(mCurrentPlate))
+                        .add(R.id.plate_detail, PlateDetailFragment.newInstance(mPlate))
                         .commit();
             }
         }

@@ -48,11 +48,22 @@ public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesView
             @Override
             public boolean onLongClick(View v) {
                 mLongPressPlate = mPlates.get(holder.getAdapterPosition());
-                if (mOnPlateAdapterPressedListener != null && mOnPlateAdapterPressedListener.get() != null){
+                if (mOnPlateAdapterPressedListener != null && mOnPlateAdapterPressedListener.get() != null) {
                     // Le pasamos al fragment el plato que ha lanzado el menu contextual
                     mOnPlateAdapterPressedListener.get().onPlateAdapterLongPressed(mLongPressPlate);
                 }
                 return false;
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLongPressPlate = mPlates.get(holder.getAdapterPosition());
+                if (mOnPlateAdapterPressedListener != null && mOnPlateAdapterPressedListener.get() != null) {
+                    // Le pasamos al fragment el plato que ha lanzado el menu contextual
+                    mOnPlateAdapterPressedListener.get().onPlateAdapterPressed(mLongPressPlate);
+                }
             }
         });
     }
@@ -101,5 +112,6 @@ public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesView
 
     public interface OnPlateAdapterPressedListener{
         void onPlateAdapterLongPressed(Plate plate);
+        void onPlateAdapterPressed(Plate plate);
     }
 }

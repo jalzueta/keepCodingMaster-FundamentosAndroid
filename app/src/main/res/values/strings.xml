@@ -31,4 +31,10 @@
     <string name="plate_notes_hint">Anotaciones específicas del plato</string>
     <string name="plate_notes_dialog_title">Peticiones especiales</string>
     <string name="notes_title">Notas</string>
+    <string name="plate_added_snackbar_message">Plato añadido</string>
+    <string name="allergens_title">Alérgenos</string>
+    <string name="allergens_example">Huevo, marisco, frutos secos</string>
+    <string name="plate_description">Esto es un ejemplo de una descripción de un plato. Vamos añadiendo líneas para que ocupe un poco mas y podamos atajar problemas de ese tipo</string>
+    <string name="plate_description_title">Descripción:</string>
+    <string name="plate_notes_title">Notas:</string>
 </resources>

@@ -52,7 +52,6 @@
         app:elevation="@dimen/fab_elevation"
         android:layout_margin="@dimen/fab_elevation"
         app:layout_anchor="@id/fragments_container"
-        app:layout_anchorGravity="bottom|right|end"
-        />
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>

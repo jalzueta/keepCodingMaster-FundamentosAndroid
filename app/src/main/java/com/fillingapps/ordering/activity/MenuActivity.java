@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +16,7 @@ import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.model.Tables;
 
-public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPlateAddedToTableListener {
+public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPlateAddedToTableListener, MenuFragment.OnPlateSelectedListener {
 
     public static final String EXTRA_TABLE_NUMBER = "com.fillingapps.ordering.activity.MenuActivity.EXTRA_TABLE_NUMBER";
     public static final String RESULT_TABLE_NUMBER = "com.fillingapps.ordering.activity.MenuActivity.RESULT_TABLE_NUMBER";
@@ -83,5 +84,16 @@ public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPl
     @Override
     public void onPlateAddedToTable(Plate plate, String notes) {
         mSelectedTable.addPlate(plate, notes);
+        Snackbar.make(
+                findViewById(R.id.menu_list),
+                R.string.plate_added_snackbar_message,
+                Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPlateSelectedListener(Plate plate) {
+        Intent menuIntent = new Intent(this, PlateDetailActivity.class);
+        menuIntent.putExtra(PlateDetailActivity.EXTRA_PLATE, plate);
+        startActivity(menuIntent);
     }
 }

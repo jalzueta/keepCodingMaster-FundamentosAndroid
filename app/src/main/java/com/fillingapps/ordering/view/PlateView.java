@@ -26,6 +26,7 @@ public class PlateView extends CardView{
     private TextView mIngredientsTextView;
     private TextView mPriceTextView;
     private TextView mNotesTextView;
+    private TextView mNotesTitleTextView;
 
     public PlateView(Context context) {
         this(context, null);
@@ -44,6 +45,7 @@ public class PlateView extends CardView{
         mPriceTextView = (TextView) findViewById(R.id.plate_price);
         mPlateImageView = (ImageView) findViewById(R.id.plate_image);
         mNotesTextView = (TextView) findViewById(R.id.plate_notes);
+        mNotesTitleTextView = (TextView) findViewById(R.id.plate_notes_title);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PlateView, 0, 0);
         if (a != null) {
@@ -107,9 +109,11 @@ public class PlateView extends CardView{
         mNotesTextView.setText(mPlateNotes);
         if (mPlateNotes == "" || mPlateNotes == null){
             mNotesTextView.setVisibility(View.GONE);
+            mNotesTitleTextView.setVisibility(View.GONE);
         }
         else{
             mNotesTextView.setVisibility(View.VISIBLE);
+            mNotesTitleTextView.setVisibility(View.VISIBLE);
         }
     }
 }

@@ -18,7 +18,9 @@
         android:text="@string/plate_title_example"
         android:textSize="20sp"/>
 
-    <RelativeLayout
+    <!--android.support.percent.Percent-->
+
+    <android.support.percent.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/plate_detail_title"
@@ -28,32 +30,18 @@
             android:id="@+id/plate_detail_image"
             android:layout_width="wrap_content"
             android:layout_height="200dp"
+            app:layout_widthPercent="65%"
             android:src="@drawable/no_image_big"
             android:scaleType="fitCenter"/>
-
-        <TextView
-            android:id="@+id/plate_ingredients_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/plate_detail_image"
-            android:layout_marginTop="15dp"
-            android:gravity="left"
-            android:text="@string/ingredients_title"
-            android:textSize="12sp"/>
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_below="@+id/plate_ingredients_title"
-            android:layout_marginTop="5dp"/>
 
         <TextView
             android:id="@+id/plate_allergens_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@android:id/list"
+            android:layout_below="@+id/plate_detail_image"
+            android:layout_alignRight="@+id/plate_detail_image"
             android:layout_marginTop="15dp"
-            android:gravity="left"
+            android:gravity="right"
             android:text="@string/allergens_title"
             android:textSize="12sp"/>
 
@@ -64,9 +52,25 @@
             android:layout_below="@+id/plate_allergens_title"
             android:layout_alignRight="@+id/plate_allergens_title"
             android:layout_marginTop="5dp"
-            android:gravity="left"
+            android:gravity="right"
             android:text="@string/allergens_example"
-            android:textSize="13sp"/>
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/plate_ingredients_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/plate_detail_image"
+            android:gravity="left"
+            android:text="@string/ingredients_title"
+            android:textSize="12sp"/>
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/plate_ingredients_title"
+            android:layout_below="@+id/plate_ingredients_title"
+            android:layout_alignBottom="@+id/plate_detail_image"/>
 
         <TextView
             android:id="@+id/plate_description_title"
@@ -88,7 +92,7 @@
             android:text="@string/plate_description"
             android:textSize="13sp"/>
 
-    </RelativeLayout>
+    </android.support.percent.PercentRelativeLayout>
 
     <TextView
         android:id="@+id/detail_plate_notes_title"
@@ -98,14 +102,11 @@
         android:layout_marginTop="10dp"
         android:gravity="left"
         android:text="@string/plate_notes_title"
-        android:textSize="12sp"
-        android:background="#fff2f2f2"/>
+        android:textSize="12sp"/>
     <EditText
         android:id="@+id/detail_plate_notes"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:background="#fff2f2f2"
-        />
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fillingapps.ordering.R;
@@ -22,6 +23,7 @@ public class PlateDetailFragment extends Fragment{
     private static final String ARG_PLATE = "plate";
 
     private Plate mPlate;
+    private ListView mIngredientsList;
 
     public static PlateDetailFragment newInstance(Plate plate) {
         PlateDetailFragment fragment = new PlateDetailFragment();
