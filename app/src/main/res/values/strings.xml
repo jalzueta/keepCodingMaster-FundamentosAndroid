@@ -30,4 +30,5 @@
     <string name="plate_title_example">Ensalada mixta</string>
     <string name="plate_notes_hint">Anotaciones específicas del plato</string>
     <string name="plate_notes_dialog_title">Peticiones especiales</string>
+    <string name="notes_title">Notas</string>
 </resources>

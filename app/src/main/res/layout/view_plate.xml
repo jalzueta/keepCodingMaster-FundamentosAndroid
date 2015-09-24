@@ -81,13 +81,23 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/plate_notes"
+            android:id="@+id/plate_notes_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_alignRight="@+id/plate_name"
             android:layout_alignLeft="@+id/plate_name"
             android:layout_below="@+id/plate_content"
+            android:textSize="11sp"
+            android:text="@string/notes_title"/>
+        <TextView
+            android:id="@+id/plate_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_alignRight="@+id/plate_name"
+            android:layout_alignLeft="@+id/plate_name"
+            android:layout_below="@+id/plate_notes_title"
             android:textSize="12sp"
             android:text="@string/notes_example"/>
 
