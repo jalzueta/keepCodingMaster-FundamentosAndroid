@@ -25,4 +25,6 @@
     <string name="plates">platos</string>
     <string name="previous">Anterior</string>
     <string name="next">Siguiente</string>
+    <string name="clean_all_tables_dialog_title">¿Desea limpiar todas las mesas?</string>
+    <string name="clean_all_tables_dialog_message">Se perderán todos los datos (comensales, platos) y no se podrán recuperar</string>
 </resources>

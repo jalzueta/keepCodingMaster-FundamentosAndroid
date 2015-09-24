@@ -138,9 +138,7 @@ public class TablePagerFragment extends Fragment{
         getActivity().unregisterReceiver(mBroadcastReceiver);
         mBroadcastReceiver = null;
     }
-
-
-
+    
     public void goToTable(int tableNumber) {
         mPager.setCurrentItem(tableNumber - 1);
     }

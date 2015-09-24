@@ -29,7 +29,7 @@ import com.fillingapps.ordering.model.Tables;
 
 import java.util.List;
 
-public class TableListFragment extends Fragment  implements SetFellowsDialogFragment.OnFellowsSetListener{
+public class TableListFragment extends Fragment  implements SetFellowsDialogFragment.OnFellowsSetListener, CleanAllTablesDialogFragment.OnCleanAllTablesListener{
 
     private static String TAG = "Ordering";
     public static String TABLE_NUMBER = "com.fillingapp.ordering.fragment.TableListFragment.TABLE_NUMBER";
@@ -123,7 +123,7 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.action_clean_all) {
-            mTables.cleanAllTables();
+            launchCleanAllTablesDialog();
             return true;
         }
         return false;
@@ -159,6 +159,10 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
         showSetFellowsDialog();
     }
 
+    private void launchCleanAllTablesDialog() {
+        showCleanAllTablesDialog();
+    }
+
     // Set fellows management
     protected void showSetFellowsDialog() {
         SetFellowsDialogFragment dialog = new SetFellowsDialogFragment();
@@ -166,6 +170,13 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
         attrs.putInt(TABLE_NUMBER, mTables.getNumberOfFellowsForTable(mLongPressTableNumber));
         dialog.setArguments(attrs);
         dialog.setOnFellowsSetListener(this);
+        dialog.show(getFragmentManager(), null);
+    }
+
+    // Set clean all tables management
+    protected void showCleanAllTablesDialog() {
+        CleanAllTablesDialogFragment dialog = new CleanAllTablesDialogFragment();
+        dialog.setOnCleanAllTablesListener(this);
         dialog.show(getFragmentManager(), null);
     }
 
@@ -177,6 +188,17 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
 
     @Override
     public void onFellowsCancelListener(SetFellowsDialogFragment dialog) {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onCleanAllTablesConfirmListener(CleanAllTablesDialogFragment dialog) {
+        mTables.cleanAllTables();
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onCleanAllTablesRejectListener(CleanAllTablesDialogFragment dialog) {
         dialog.dismiss();
     }
 
