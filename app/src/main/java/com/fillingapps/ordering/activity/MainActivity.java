@@ -13,14 +13,14 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fillingapps.ordering.R;
-import com.fillingapps.ordering.fragment.TableDetailFragment;
 import com.fillingapps.ordering.fragment.TableListFragment;
+import com.fillingapps.ordering.fragment.TablePagerFragment;
 import com.fillingapps.ordering.model.Plates;
 import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.model.Tables;
 import com.fillingapps.ordering.network.PlatesDownloader;
 
-public class MainActivity extends AppCompatActivity implements PlatesDownloader.OnPlatesReceivedListener, TableListFragment.OnTableSelectedListener {
+public class MainActivity extends AppCompatActivity implements PlatesDownloader.OnPlatesReceivedListener, TableListFragment.OnTableSelectedListener, TablePagerFragment.OnTablePageChangedListener {
 
     static final int RESULT_UPDATED_TABLE = 1;
 
@@ -70,12 +70,12 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
         if (findViewById(R.id.table_detail) != null) {
             if (fm.findFragmentById(R.id.table_detail) == null) {
                 fm.beginTransaction()
-                        .add(R.id.table_detail, TableDetailFragment.newInstance(mSelectedTable.getTableNumber()))
+                        .add(R.id.table_detail, TablePagerFragment.newInstance(mSelectedTable.getTableNumber()))
                         .commit();
                 shouldShowFab = true;
             }
         }
-
+        handleFAB();
         // Descargamos el menu (asynctask)
         downloadMenu();
     }
@@ -115,13 +115,13 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
         if (findViewById(R.id.table_detail) != null) {
             // Se carga el fragment de detalle de mesa con los datos de la mesa pulsada
             if (fm.findFragmentById(R.id.table_detail) != null){
-                ((TableDetailFragment)fm.findFragmentById(R.id.table_detail)).loadTable(mSelectedTable);
+                ((TablePagerFragment)fm.findFragmentById(R.id.table_detail)).goToTable(mSelectedTable.getTableNumber());
             }
         } else {
             // No existe un hueco "table_detail", por lo que reemplazamos el fragment con la lista
             // mesas por el del detalle de la mesa
             fm.beginTransaction()
-                    .replace(R.id.table_list, TableDetailFragment.newInstance(mSelectedTable.getTableNumber()))
+                    .replace(R.id.table_list, TablePagerFragment.newInstance(mSelectedTable.getTableNumber()))
                     .addToBackStack(null)
                     .commit();
             if (getSupportActionBar() != null) {
@@ -130,6 +130,11 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
             shouldShowFab = true;
         }
         handleFAB();
+    }
+
+    @Override
+    public void onTablePageChanged(Table table, int index) {
+        mSelectedTable = table;
     }
 
     @Override

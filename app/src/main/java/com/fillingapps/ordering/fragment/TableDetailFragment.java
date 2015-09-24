@@ -1,10 +1,6 @@
 package com.fillingapps.ordering.fragment;
 
 import android.app.Fragment;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,10 +8,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.fillingapps.ordering.R;
@@ -27,9 +24,7 @@ import com.fillingapps.ordering.model.Tables;
 import java.util.Collections;
 import java.util.List;
 
-public class TableDetailFragment extends Fragment{
-
-    private TableDetailBroadcastReceiver mBroadcastReceiver;
+public class TableDetailFragment extends Fragment implements SetFellowsDialogFragment.OnFellowsSetListener{
 
     private RecyclerView mPlateList;
     private Table mCurrentTable;
@@ -72,21 +67,21 @@ public class TableDetailFragment extends Fragment{
         super.onCreateView(inflater, container, savedInstanceState);
         View root = inflater.inflate(R.layout.fragment_table_detail, container, false);
 
-        // TODO: paint values on screen
-        mPlateList = (RecyclerView) root.findViewById(R.id.table_recycler);
-//        mPlateList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mPlateList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        mPlateList.setItemAnimator(new DefaultItemAnimator());
+        if (root.findViewById(R.id.table_recycler_list) != null) {
+            mPlateList = (RecyclerView) root.findViewById(R.id.table_recycler_list);
+            mPlateList.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mPlateList.setItemAnimator(new DefaultItemAnimator());
+        }
+        else if (root.findViewById(R.id.table_recycler_grid_2) != null){
+            mPlateList = (RecyclerView) root.findViewById(R.id.table_recycler_grid_2);
+            mPlateList.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+            mPlateList.setItemAnimator(new DefaultItemAnimator());
+        }
 
         mFellowsTextView = (TextView) root.findViewById(R.id.fellows);
         mPlatesTextView = (TextView) root.findViewById(R.id.plates);
         mTableNumberTextView = (TextView) root.findViewById(R.id.table_number);
         mNoPlatesTextView = (TextView) root.findViewById(R.id.no_plates);
-
-        // Suscripcion a la notificacion de cambio en el Singleton "Tables"
-        mBroadcastReceiver = new TableDetailBroadcastReceiver();
-        // Me suscribo a notificaciones broadcast
-        getActivity().registerReceiver(mBroadcastReceiver, new IntentFilter(Tables.TABLE_LIST_CHANGED_ACTION));
 
         setScreenValues();
 
@@ -94,12 +89,19 @@ public class TableDetailFragment extends Fragment{
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_table_detail_fragment, menu);
+    }
 
-        // Dejo de enterarme de cambios en el modelo Cities
-        getActivity().unregisterReceiver(mBroadcastReceiver);
-        mBroadcastReceiver = null;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_assign_fellows) {
+            launchAssignFellowDialog();
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -114,9 +116,29 @@ public class TableDetailFragment extends Fragment{
         return true;
     }
 
-    public void loadTable(Table table){
-        mCurrentTable = table;
-        setScreenValues();
+    private void launchAssignFellowDialog() {
+        showSetFellowsDialog();
+    }
+
+    // Set fellows management
+    protected void showSetFellowsDialog() {
+        SetFellowsDialogFragment dialog = new SetFellowsDialogFragment();
+        Bundle attrs = new Bundle();
+        attrs.putInt(TableListFragment.TABLE_NUMBER, mCurrentTable.getNumberOfFellows());
+        dialog.setArguments(attrs);
+        dialog.setOnFellowsSetListener(this);
+        dialog.show(getFragmentManager(), null);
+    }
+
+    @Override
+    public void onFellowsSetListener(SetFellowsDialogFragment dialog, String numberOfFellows) {
+        Tables.getInstance(getActivity()).setNumberOfFellows(Integer.parseInt(numberOfFellows), mCurrentTable.getTableNumber());
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onFellowsCancelListener(SetFellowsDialogFragment dialog) {
+        dialog.dismiss();
     }
 
     private void setScreenValues() {
@@ -146,20 +168,5 @@ public class TableDetailFragment extends Fragment{
     private void hidePlates() {
         mNoPlatesTextView.setVisibility(View.VISIBLE);
         mPlateList.setVisibility(View.GONE);
-    }
-
-    private class TableDetailBroadcastReceiver extends BroadcastReceiver {
-
-        // Necesito el adapter al que voy a avisar de que hay nuevos datos
-        public TableDetailBroadcastReceiver() {
-            super();
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Hay nuevos cambios, aviso al adaptador para que vuelva a recargarse
-            mCurrentTable = Tables.getInstance(getActivity()).getTable(mCurrentTable.getTableNumber());
-            setScreenValues();
-        }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.lang.ref.WeakReference;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class Tables {
         for (int i = 1; i < 15; i++) {
             mTables.add(new Table(i));
         }
+        Collections.sort(mTables);
     }
 
     public List<Table> getTables() {

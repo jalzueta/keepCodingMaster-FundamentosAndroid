@@ -156,7 +156,6 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
     }
 
     private void launchAssignFellowDialog() {
-        //TODO: lanzar DialogFragmnet
         showSetFellowsDialog();
     }
 

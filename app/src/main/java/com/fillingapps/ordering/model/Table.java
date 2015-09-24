@@ -3,7 +3,7 @@ package com.fillingapps.ordering.model;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Table {
+public class Table implements Comparable<Table>{
 
     private int mTableNumber;
     private int mNumberOfFellows;
@@ -72,5 +72,10 @@ public class Table {
 
     public boolean isTheSame (Table table){
         return this.getTableNumber() == table.getTableNumber();
+    }
+
+    @Override
+    public int compareTo(Table another) {
+        return ((Integer)getTableNumber()).compareTo(another.getTableNumber());
     }
 }
