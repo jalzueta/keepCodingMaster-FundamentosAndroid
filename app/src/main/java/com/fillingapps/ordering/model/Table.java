@@ -1,5 +1,6 @@
 package com.fillingapps.ordering.model;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,6 +42,7 @@ public class Table implements Comparable<Table>{
     }
 
     public List<Plate> getPlates() {
+        Collections.sort(mPlates);
         return mPlates;
     }
 
@@ -66,8 +68,9 @@ public class Table implements Comparable<Table>{
         mNotes = notes;
     }
 
-    public void addPlate (Plate plate){
+    public void addPlate (Plate plate, String notes){
         plate.setId(mPlates.size()+1);
+        plate.setNotes(notes);
         mPlates.add(plate);
     }
 

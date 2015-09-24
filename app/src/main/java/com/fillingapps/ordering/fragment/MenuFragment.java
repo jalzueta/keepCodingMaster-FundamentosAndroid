@@ -25,7 +25,7 @@ import com.fillingapps.ordering.network.PlatesDownloader;
 
 import java.lang.ref.WeakReference;
 
-public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesReceivedListener, PlatesAdapter.OnPlateAdapterPressedListener {
+public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesReceivedListener, PlatesAdapter.OnPlateAdapterPressedListener, SetPlateNotesDialogFragment.OnPlateNotesSetListener {
 
     protected WeakReference<OnPlateAddedToTableListener> mOnPlateAddedToTableListener;
     private Plate mPlatePressed;
@@ -122,14 +122,22 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         super.onContextItemSelected(item);
 
         if (item.getItemId() == R.id.action_add) {
-            // Avisamos a la Activity de que se ha añadido un plato
-            if (mOnPlateAddedToTableListener != null && mOnPlateAddedToTableListener.get() != null) {
-                mOnPlateAddedToTableListener.get().onPlateAddedToTable(mPlatePressed);
-            }
+            launchPlateNotesDialog();
         } else {
             return false;
         }
         return true;
+    }
+
+    private void launchPlateNotesDialog(){
+        showSetPlateNotesDialog();
+    }
+
+    // Set fellows management
+    protected void showSetPlateNotesDialog() {
+        SetPlateNotesDialogFragment dialog = new SetPlateNotesDialogFragment();
+        dialog.setOnPlatesNotesSetListener(this);
+        dialog.show(getFragmentManager(), null);
     }
 
     private void downloadMenu() {
@@ -186,7 +194,21 @@ public class MenuFragment extends Fragment implements PlatesDownloader.OnPlatesR
         mPlatePressed = plate;
     }
 
+    @Override
+    public void onPlateNotesSetListener(SetPlateNotesDialogFragment dialog, String plateNotes) {
+        // Avisamos a la Activity de que se ha añadido un plato
+        if (mOnPlateAddedToTableListener != null && mOnPlateAddedToTableListener.get() != null) {
+            mOnPlateAddedToTableListener.get().onPlateAddedToTable(mPlatePressed, plateNotes);
+        }
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onPlateNotesCancelListener(SetPlateNotesDialogFragment dialog) {
+        dialog.dismiss();
+    }
+
     public interface OnPlateAddedToTableListener {
-        void onPlateAddedToTable(Plate plate);
+        void onPlateAddedToTable(Plate plate, String notes);
     }
 }

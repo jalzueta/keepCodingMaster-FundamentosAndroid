@@ -108,5 +108,8 @@ public class PlateView extends CardView{
         if (mPlateNotes == "" || mPlateNotes == null){
             mNotesTextView.setVisibility(View.GONE);
         }
+        else{
+            mNotesTextView.setVisibility(View.VISIBLE);
+        }
     }
 }

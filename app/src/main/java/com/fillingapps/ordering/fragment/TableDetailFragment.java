@@ -154,7 +154,6 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
     private void setPlates(){
         List<Plate> plates = mCurrentTable.getPlates();
         if (mCurrentTable.getPlates().size() > 0) {
-            Collections.sort(plates);
             mPlateList.swapAdapter(new PlatesAdapter(plates, getActivity(), R.menu.menu_context_table, this), false);
             showPlates();
         }

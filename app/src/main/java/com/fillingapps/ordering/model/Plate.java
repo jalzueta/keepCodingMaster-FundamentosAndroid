@@ -1,10 +1,9 @@
 package com.fillingapps.ordering.model;
 
-import com.fillingapps.ordering.model.Allergen;
-
+import java.io.Serializable;
 import java.util.List;
 
-public class Plate implements Comparable<Plate>{
+public class Plate implements Serializable, Comparable<Plate>{
 
     private int mId;
     private int mMenuId;
@@ -36,6 +35,14 @@ public class Plate implements Comparable<Plate>{
 
     public void setId(int id) {
         mId = id;
+    }
+
+    public int getMenuId() {
+        return mMenuId;
+    }
+
+    public void setMenuId(int menuId) {
+        mMenuId = menuId;
     }
 
     public String getName() {
@@ -113,21 +120,13 @@ public class Plate implements Comparable<Plate>{
         return result;
     }
 
-
     @Override
     public int compareTo(Plate another) {
         return ((Integer)getId()).compareTo(another.getId());
     }
 
-    public int getMenuId() {
-        return mMenuId;
-    }
-
-    public void setMenuId(int menuId) {
-        mMenuId = menuId;
-    }
 
     public boolean isTheSame (Plate plate){
-        return (this.getId() == plate.getId() && this.getMenuId() == plate.getMenuId());
+        return (this.getMenuId() == plate.getMenuId());
     }
 }

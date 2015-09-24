@@ -27,4 +27,7 @@
     <string name="next">Siguiente</string>
     <string name="clean_all_tables_dialog_title">¿Desea limpiar todas las mesas?</string>
     <string name="clean_all_tables_dialog_message">Se perderán todos los datos (comensales, platos) y no se podrán recuperar</string>
+    <string name="plate_title_example">Ensalada mixta</string>
+    <string name="plate_notes_hint">Anotaciones específicas del plato</string>
+    <string name="plate_notes_dialog_title">Peticiones especiales</string>
 </resources>

@@ -81,7 +81,7 @@ public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPl
     }
 
     @Override
-    public void onPlateAddedToTable(Plate plate) {
-        mSelectedTable.addPlate(plate);
+    public void onPlateAddedToTable(Plate plate, String notes) {
+        mSelectedTable.addPlate(plate, notes);
     }
 }
