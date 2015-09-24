@@ -67,7 +67,18 @@ public class Table implements Comparable<Table>{
     }
 
     public void addPlate (Plate plate){
+        plate.setId(mPlates.size()+1);
         mPlates.add(plate);
+    }
+
+    public void removePlate (Plate plate){
+        for (int i=0; i<mPlates.size(); i++) {
+            Plate auxPlate = mPlates.get(i);
+            if (auxPlate.isTheSame(plate)){
+                mPlates.remove(i);
+                break;
+            }
+        }
     }
 
     public boolean isTheSame (Table table){

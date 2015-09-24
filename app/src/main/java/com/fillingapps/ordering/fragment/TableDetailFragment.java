@@ -24,10 +24,12 @@ import com.fillingapps.ordering.model.Tables;
 import java.util.Collections;
 import java.util.List;
 
-public class TableDetailFragment extends Fragment implements SetFellowsDialogFragment.OnFellowsSetListener{
+public class TableDetailFragment extends Fragment implements SetFellowsDialogFragment.OnFellowsSetListener, PlatesAdapter.OnPlateAdapterPressedListener{
 
     private RecyclerView mPlateList;
     private Table mCurrentTable;
+
+    private Plate mPlatePressed;
 
     private TextView mFellowsTextView;
     private TextView mPlatesTextView;
@@ -110,6 +112,7 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
 
         if (item.getItemId() == R.id.action_delete){
             // TODO: delete plate from table
+            Tables.getInstance(getActivity()).removePlate(mPlatePressed, mCurrentTable.getTableNumber());
         }else{
             return false;
         }
@@ -152,7 +155,7 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
         List<Plate> plates = mCurrentTable.getPlates();
         if (mCurrentTable.getPlates().size() > 0) {
             Collections.sort(plates);
-            mPlateList.swapAdapter(new PlatesAdapter(plates, getActivity(), R.menu.menu_context_table, null), false);
+            mPlateList.swapAdapter(new PlatesAdapter(plates, getActivity(), R.menu.menu_context_table, this), false);
             showPlates();
         }
         else{
@@ -168,5 +171,10 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
     private void hidePlates() {
         mNoPlatesTextView.setVisibility(View.VISIBLE);
         mPlateList.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onPlateAdapterLongPressed(Plate plate) {
+        mPlatePressed = plate;
     }
 }

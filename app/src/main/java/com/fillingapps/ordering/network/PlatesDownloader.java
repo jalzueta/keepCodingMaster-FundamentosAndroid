@@ -95,7 +95,7 @@ public class PlatesDownloader extends AsyncTask<String, Integer, Plates> {
                         String iName = ingredient.getString("name");
                         ingredients.add(new Ingredient(iName));
                     }
-                    plates.addPlate(new Plate(identifier, name, type, image, description, ingredients, allergens, price, ""));
+                    plates.addPlate(new Plate(identifier, 0, name, type, image, description, ingredients, allergens, price, ""));
                 }
             }
         } catch (Exception e) {

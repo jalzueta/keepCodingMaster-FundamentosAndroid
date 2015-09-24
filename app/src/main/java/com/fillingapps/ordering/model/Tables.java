@@ -124,4 +124,15 @@ public class Tables {
             }
         }
     }
+
+    public void removePlate(Plate plate, int tableNumber){
+        for (int i = 0; i < mTables.size(); i++) {
+            Table table = mTables.get(i);
+            if (table.getTableNumber() == tableNumber) {
+                table.removePlate(plate);
+                sendDataSetChangedIntent();
+                break;
+            }
+        }
+    }
 }

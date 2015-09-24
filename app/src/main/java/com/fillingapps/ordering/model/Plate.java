@@ -7,6 +7,7 @@ import java.util.List;
 public class Plate implements Comparable<Plate>{
 
     private int mId;
+    private int mMenuId;
     private String mName;
     private String type;
     private String image;
@@ -16,8 +17,9 @@ public class Plate implements Comparable<Plate>{
     private float mPrice;
     private String mNotes;
 
-    public Plate(int id, String name, String type, String image, String description, List<Ingredient> ingredients, List<Allergen> allergens, float price, String notes) {
+    public Plate(int id, int menuId, String name, String type, String image, String description, List<Ingredient> ingredients, List<Allergen> allergens, float price, String notes) {
         mId = id;
+        mMenuId = menuId;
         mName = name;
         this.type = type;
         this.image = image;
@@ -115,5 +117,17 @@ public class Plate implements Comparable<Plate>{
     @Override
     public int compareTo(Plate another) {
         return ((Integer)getId()).compareTo(another.getId());
+    }
+
+    public int getMenuId() {
+        return mMenuId;
+    }
+
+    public void setMenuId(int menuId) {
+        mMenuId = menuId;
+    }
+
+    public boolean isTheSame (Plate plate){
+        return (this.getId() == plate.getId() && this.getMenuId() == plate.getMenuId());
     }
 }
