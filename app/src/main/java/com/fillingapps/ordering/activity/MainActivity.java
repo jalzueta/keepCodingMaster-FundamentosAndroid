@@ -9,6 +9,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -59,10 +61,16 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
         //Insertamos el fragment con la lista de mesas
         FragmentManager fm = getFragmentManager();
         if (findViewById(R.id.table_list) != null) {
-            if (fm.findFragmentById(R.id.table_list) == null || findViewById(R.id.table_detail) != null) {
+            if (fm.findFragmentById(R.id.table_list) == null) {
                 fm.beginTransaction()
                         .add(R.id.table_list, TableListFragment.newInstance())
                         .commit();
+            }
+            else{
+                if (fm.findFragmentById(R.id.table_list) instanceof TablePagerFragment){
+                    // Desapilamos el fragment
+                    fm.popBackStack();
+                }
             }
         }
 
@@ -84,8 +92,7 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_UPDATED_TABLE) {
             // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                // TODO: refresh Tables
+            if (resultCode == RESULT_OK){
                 mSelectedTable = Tables.getInstance(this).getTable(data.getIntExtra(MenuActivity.RESULT_TABLE_NUMBER, 0));
             }
         }
@@ -95,6 +102,12 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
     protected void onResume() {
         super.onResume();
         handleFAB();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
+        return true;
     }
 
     @Override

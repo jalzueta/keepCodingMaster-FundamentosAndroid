@@ -146,6 +146,7 @@ public class TablePagerFragment extends Fragment{
     // Métodos del menu
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_table_pager_fragment, menu);
     }
 
@@ -168,8 +169,8 @@ public class TablePagerFragment extends Fragment{
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
+//        menu.clear();
         super.onPrepareOptionsMenu(menu);
-
         if (mPager != null) {
             MenuItem menuNext = menu.findItem(R.id.next);
             MenuItem menuPrev = menu.findItem(R.id.previous);

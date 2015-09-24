@@ -37,4 +37,5 @@
     <string name="plate_description">Esto es un ejemplo de una descripción de un plato. Vamos añadiendo líneas para que ocupe un poco mas y podamos atajar problemas de ese tipo</string>
     <string name="plate_description_title">Descripción:</string>
     <string name="plate_notes_title">Notas:</string>
+    <string name="bill_format">%.2f €</string>
 </resources>

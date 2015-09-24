@@ -90,6 +90,14 @@ public class Table implements Serializable, Comparable<Table>{
         }
     }
 
+    public float getBill(){
+        float total = 0;
+        for (Plate plate:mPlates) {
+            total += plate.getPrice();
+        }
+        return total;
+    }
+
     public boolean isTheSame (Table table){
         return this.getTableNumber() == table.getTableNumber();
     }

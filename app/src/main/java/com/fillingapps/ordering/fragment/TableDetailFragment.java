@@ -34,6 +34,7 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
     private TextView mFellowsTextView;
     private TextView mPlatesTextView;
     private TextView mTableNumberTextView;
+    private TextView mTableBillTextView;
     private TextView mNoPlatesTextView;
 
     private static final String ARG_TABLE_NUMBER = "tableNumber";
@@ -83,11 +84,17 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
         mFellowsTextView = (TextView) root.findViewById(R.id.fellows);
         mPlatesTextView = (TextView) root.findViewById(R.id.plates);
         mTableNumberTextView = (TextView) root.findViewById(R.id.table_number);
+        mTableBillTextView = (TextView) root.findViewById(R.id.table_bill);
         mNoPlatesTextView = (TextView) root.findViewById(R.id.no_plates);
 
         setScreenValues();
 
         return root;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
     }
 
     @Override
@@ -111,7 +118,7 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
         super.onContextItemSelected(item);
 
         if (item.getItemId() == R.id.action_delete){
-            // TODO: delete plate from table
+            // Delete plate from table
             Tables.getInstance(getActivity()).removePlate(mPlatePressed, mCurrentTable.getTableNumber());
         }else{
             return false;
@@ -148,6 +155,7 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
         mTableNumberTextView.setText(String.valueOf(mCurrentTable.getTableNumber()));
         mFellowsTextView.setText(String.valueOf(mCurrentTable.getNumberOfFellows()));
         mPlatesTextView.setText(String.valueOf(mCurrentTable.getPlates().size()));
+        mTableBillTextView.setText(String.format(getActivity().getString(R.string.bill_format), mCurrentTable.getBill()));
         setPlates();
     }
 
