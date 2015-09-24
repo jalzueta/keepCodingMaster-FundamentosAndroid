@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
         //Insertamos el fragment con la lista de mesas
         FragmentManager fm = getFragmentManager();
         if (findViewById(R.id.table_list) != null) {
-            if (fm.findFragmentById(R.id.table_list) == null) {
+            if (fm.findFragmentById(R.id.table_list) == null || findViewById(R.id.table_detail) != null) {
                 fm.beginTransaction()
                         .add(R.id.table_list, TableListFragment.newInstance())
                         .commit();
@@ -72,8 +72,8 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
                 fm.beginTransaction()
                         .add(R.id.table_detail, TablePagerFragment.newInstance(mSelectedTable.getTableNumber()))
                         .commit();
-                shouldShowFab = true;
             }
+            shouldShowFab = true;
         }
         handleFAB();
         // Descargamos el menu (asynctask)
