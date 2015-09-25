@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
             }
             shouldShowFab = true;
         }
+        else if (fm.findFragmentById(R.id.table_detail) != null) {
+            fm.findFragmentById(R.id.table_detail).setMenuVisibility(false);
+            shouldShowFab = false;
+        }
         handleFAB();
         // Descargamos el menu (asynctask)
         downloadMenu();
