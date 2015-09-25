@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fillingapps.ordering.R;
@@ -39,6 +41,7 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
 
     private Tables mTables;
     private int mLongPressTableNumber;
+    private int mselectedTableNumber;
     private ListView mList;
 
     public static TableListFragment newInstance() {
@@ -67,6 +70,7 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (mListener != null) {
                     mListener.onTableSelected(adapter.getItem(position), position);
+                    mselectedTableNumber = position;
                 }
             }
         });
@@ -235,11 +239,17 @@ public class TableListFragment extends Fragment  implements SetFellowsDialogFrag
             TextView tableNumberOfPlates = (TextView) tableRow.findViewById(R.id.table_number_of_plates);
             TextView tableTotalBill = (TextView) tableRow.findViewById(R.id.table_bill);
 
+            RelativeLayout tableBackgroud = (RelativeLayout) tableRow.findViewById(R.id.table_item_background);
+
             Table currentTable = getItem(position);
             tableNumber.setText(String.valueOf(currentTable.getTableNumber()));
             tableNumberOfFellows.setText(String.valueOf(currentTable.getNumberOfFellows()));
             tableNumberOfPlates.setText(String.valueOf(currentTable.getPlates().size()));
             tableTotalBill.setText(String.format(getActivity().getString(R.string.bill_format), currentTable.getBill()));
+
+            if (position == mselectedTableNumber){
+//                tableBackgroud.setBackgroundColor(Color.WHITE);
+            }
 
             return tableRow;
         }

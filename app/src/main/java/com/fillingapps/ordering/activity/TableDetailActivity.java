@@ -3,6 +3,7 @@ package com.fillingapps.ordering.activity;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -56,6 +57,23 @@ public class TableDetailActivity extends AppCompatActivity implements TablePager
                         .commit();
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // Voy a hacer aparecer el boton despues de 1 segundos
+        Handler showAddButton = new Handler();
+        showAddButton.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mAddPlateButton != null){
+                    // Muestra el boton con una animacion incluida
+                    mAddPlateButton.show();
+                }
+            }
+        }, 1000);
     }
 
     @Override
