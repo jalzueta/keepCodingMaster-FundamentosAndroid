@@ -6,27 +6,33 @@
     android:layout_height="match_parent"
     android:background="#ffe4e4e4">
 
+    <ImageView
+        android:id="@+id/fellows_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:padding="10dp"
+        android:src="@drawable/icon_fellows"
+        android:scaleType="centerInside"/>
     <TextView
         android:id="@+id/fellows"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_toRightOf="@+id/fellows_icon"
         android:gravity="center_vertical"
         android:text="6"
         android:textSize="18sp"/>
 
-    <TextView
-        android:id="@+id/fellows_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/fellows"
-        android:layout_alignTop="@id/fellows"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@id/fellows"
-        android:gravity="center_vertical"
-        android:text="@string/fellows"/>
-
-
+    <ImageView
+        android:id="@+id/plates_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_below="@id/fellows_icon"
+        android:padding="10dp"
+        android:src="@drawable/icon_plates"
+        android:scaleType="centerInside"/>
     <TextView
         android:id="@+id/plates"
         android:layout_width="wrap_content"
@@ -36,17 +42,6 @@
         android:gravity="center_vertical"
         android:text="5"
         android:textSize="18sp"/>
-
-    <TextView
-        android:id="@+id/plates_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/plates"
-        android:layout_alignLeft="@id/fellows_title"
-        android:layout_alignTop="@id/plates"
-        android:layout_toRightOf="@id/plates"
-        android:gravity="center_vertical"
-        android:text="@string/plates"/>
 
     <TextView
         android:id="@+id/table_number"
@@ -80,7 +75,7 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/table_number"
         android:layout_alignBottom="@+id/table_number"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:text="60 €"
         android:textSize="20sp"
         android:gravity="center_vertical"/>
