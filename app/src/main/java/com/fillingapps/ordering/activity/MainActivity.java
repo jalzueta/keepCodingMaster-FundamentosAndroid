@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fillingapps.ordering.R;
+import com.fillingapps.ordering.fragment.TableDetailFragment;
 import com.fillingapps.ordering.fragment.TableListFragment;
 import com.fillingapps.ordering.fragment.TablePagerFragment;
 import com.fillingapps.ordering.model.Plates;
@@ -66,12 +67,6 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
                         .add(R.id.table_list, TableListFragment.newInstance())
                         .commit();
             }
-            else{
-                if (fm.findFragmentById(R.id.table_list) instanceof TablePagerFragment){
-                    // Desapilamos el fragment
-                    fm.popBackStack();
-                }
-            }
         }
 
         //Insertamos el fragment con el detalle de la mesa seleccionada (si existe el FrameLayout "table_detail" en el xml de layout)
@@ -105,12 +100,6 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.clear();
-        return true;
-    }
-
-    @Override
     public void onPlatesReceivedListener() {
         // Vuelta del AsyncTask al terminar de descargar los platos
         Snackbar.make(
@@ -131,16 +120,11 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
                 ((TablePagerFragment)fm.findFragmentById(R.id.table_detail)).goToTable(mSelectedTable.getTableNumber());
             }
         } else {
-            // No existe un hueco "table_detail", por lo que reemplazamos el fragment con la lista
-            // mesas por el del detalle de la mesa
-            fm.beginTransaction()
-                    .replace(R.id.table_list, TablePagerFragment.newInstance(mSelectedTable.getTableNumber()))
-                    .addToBackStack(null)
-                    .commit();
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            }
-            shouldShowFab = true;
+            // No existe un hueco "table_detail", por lo que lanzamos la activity
+            Intent tableDetailIntent = new Intent(MainActivity.this, TableDetailActivity.class);
+            tableDetailIntent.putExtra(TableDetailFragment.ARG_TABLE_NUMBER, mSelectedTable.getTableNumber());
+            startActivity(tableDetailIntent);
+
         }
         handleFAB();
     }
@@ -148,49 +132,6 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
     @Override
     public void onTablePageChanged(Table table, int index) {
         mSelectedTable = table;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            FragmentManager fm = getFragmentManager();
-
-            if (fm.getBackStackEntryCount() == 1 && getSupportActionBar() != null) {
-                // Quitamos la flecha de volver
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            }
-
-            // Desapilamos el fragment
-            fm.popBackStack();
-
-            shouldShowFab = false;
-            handleFAB();
-
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        FragmentManager fm = getFragmentManager();
-
-        if (fm.getBackStackEntryCount() == 1 && getSupportActionBar() != null) {
-            // Quitamos la flecha de volver
-            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        }
-
-        // Comprobamos si hay elementos en la pila pendientes de desapilar
-        if (fm.getBackStackEntryCount() > 0) {
-            fm.popBackStack();
-
-            shouldShowFab = false;
-            handleFAB();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     private void downloadMenu() {

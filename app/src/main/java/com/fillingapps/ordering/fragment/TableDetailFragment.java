@@ -37,7 +37,7 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
     private TextView mTableBillTextView;
     private TextView mNoPlatesTextView;
 
-    private static final String ARG_TABLE_NUMBER = "tableNumber";
+    public static final String ARG_TABLE_NUMBER = "tableNumber";
 
     public static TableDetailFragment newInstance(int currentTableNumber) {
         // 1) Nos creamos el fragment

@@ -24,6 +24,10 @@
             android:parentActivityName=".activity.MainActivity" >
         </activity>
         <activity
+            android:name=".activity.TableDetailActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name=".activity.PlateDetailActivity"
             android:label="@string/app_name" >
         </activity>
