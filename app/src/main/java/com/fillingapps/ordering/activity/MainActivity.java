@@ -15,17 +15,20 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fillingapps.ordering.R;
+import com.fillingapps.ordering.fragment.MenuFragment;
 import com.fillingapps.ordering.fragment.TableDetailFragment;
 import com.fillingapps.ordering.fragment.TableListFragment;
 import com.fillingapps.ordering.fragment.TablePagerFragment;
+import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Plates;
 import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.model.Tables;
 import com.fillingapps.ordering.network.PlatesDownloader;
 
-public class MainActivity extends AppCompatActivity implements PlatesDownloader.OnPlatesReceivedListener, TableListFragment.OnTableSelectedListener, TablePagerFragment.OnTablePageChangedListener {
+public class MainActivity extends AppCompatActivity implements PlatesDownloader.OnPlatesReceivedListener, TableListFragment.OnTableSelectedListener, TablePagerFragment.OnTablePageChangedListener, MenuFragment.OnPlateSelectedListener {
 
     static final int RESULT_UPDATED_TABLE = 1;
+    static final int RESULT_PLATE_UPDATED = 3;
 
     private FloatingActionButton mAddPlateButton;
     private Table mSelectedTable;
@@ -168,5 +171,15 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
         if (mAddPlateButton != null) {
             mAddPlateButton.hide();
         }
+    }
+
+    @Override
+    public void onPlateSelectedListener(Plate plate) {
+        Intent plateDetailIntent = new Intent(this, PlateDetailActivity.class);
+        plateDetailIntent.putExtra(PlateDetailActivity.EXTRA_PLATE, plate);
+        plateDetailIntent.putExtra(MenuActivity.EXTRA_TABLE_NUMBER, mSelectedTable);
+        plateDetailIntent.putExtra(PlateDetailActivity.EXTRA_IS_UPDATING_PLATE, true);
+//        startActivityForResult(menuIntent, RESULT_PLATE_UPDATED);
+        startActivity(plateDetailIntent);
     }
 }

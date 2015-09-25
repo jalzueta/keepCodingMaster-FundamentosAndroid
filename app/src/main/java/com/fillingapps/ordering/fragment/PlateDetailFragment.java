@@ -1,13 +1,18 @@
 package com.fillingapps.ordering.fragment;
 
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +26,13 @@ import com.fillingapps.ordering.model.Ingredient;
 import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Tables;
 
+import java.lang.ref.WeakReference;
+
 public class PlateDetailFragment extends Fragment{
 
     private static final String ARG_PLATE = "plate";
+
+    protected WeakReference<OnPlateNotesChangedListener> mOnPlateNotesChangedListener;
 
     private Plate mPlate;
     private ListView mIngredientsList;
@@ -76,12 +85,59 @@ public class PlateDetailFragment extends Fragment{
         mPlateDescription.setText(mPlate.getDescription());
         mPlateNotes.setText(mPlate.getNotes());
 
+        mPlateNotes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO: avisar a la activity para que actualice el mPlate
+                if (mOnPlateNotesChangedListener != null && mOnPlateNotesChangedListener.get() != null) {
+                    mPlate.setNotes(mPlateNotes.getText().toString());
+                    mOnPlateNotesChangedListener.get().onPlateNotesChanged(mPlate);
+                }
+            }
+        });
+
         mPlateImage.setImageResource(getActivity().getResources().getIdentifier(mPlate.getImage(), "drawable", getActivity().getPackageName()));
 
         final ArrayAdapter<Ingredient> adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_ingredient, mPlate.getIngredients());
         mIngredientsList.setAdapter(adapter);
 
         return root;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mOnPlateNotesChangedListener = new WeakReference<OnPlateNotesChangedListener>((OnPlateNotesChangedListener) getActivity());
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        mOnPlateNotesChangedListener = new WeakReference<OnPlateNotesChangedListener>((OnPlateNotesChangedListener) getActivity());
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mOnPlateNotesChangedListener = null;
+    }
+
+    public interface OnPlateNotesChangedListener {
+        void onPlateNotesChanged (Plate plate);
     }
 
 }

@@ -125,11 +125,44 @@ public class Tables {
         }
     }
 
+    public void addPlate(Plate plate, int tableNumber){
+        for (int i = 0; i < mTables.size(); i++) {
+            Table table = mTables.get(i);
+            if (table.getTableNumber() == tableNumber) {
+                table.addPlate(plate);
+                sendDataSetChangedIntent();
+                break;
+            }
+        }
+    }
+
+    public void addPlate(Plate plate, String notes, int tableNumber){
+        for (int i = 0; i < mTables.size(); i++) {
+            Table table = mTables.get(i);
+            if (table.getTableNumber() == tableNumber) {
+                table.addPlate(plate, notes);
+                sendDataSetChangedIntent();
+                break;
+            }
+        }
+    }
+
     public void removePlate(Plate plate, int tableNumber){
         for (int i = 0; i < mTables.size(); i++) {
             Table table = mTables.get(i);
             if (table.getTableNumber() == tableNumber) {
                 table.removePlate(plate);
+                sendDataSetChangedIntent();
+                break;
+            }
+        }
+    }
+
+    public void updatePlate(Plate plate, int tableNumber){
+        for (int i = 0; i < mTables.size(); i++) {
+            Table table = mTables.get(i);
+            if (table.getTableNumber() == tableNumber) {
+                table.updatePlate(plate);
                 sendDataSetChangedIntent();
                 break;
             }

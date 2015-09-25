@@ -1,6 +1,8 @@
 package com.fillingapps.ordering.fragment;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,10 +23,13 @@ import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.model.Tables;
 
+import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.List;
 
 public class TableDetailFragment extends Fragment implements SetFellowsDialogFragment.OnFellowsSetListener, PlatesAdapter.OnPlateAdapterPressedListener{
+
+    protected WeakReference<MenuFragment.OnPlateSelectedListener> mOnPlateSelectedListener;
 
     private RecyclerView mPlateList;
     private Table mCurrentTable;
@@ -90,6 +95,29 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
         setScreenValues();
 
         return root;
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mOnPlateSelectedListener = new WeakReference<MenuFragment.OnPlateSelectedListener>((MenuFragment.OnPlateSelectedListener) getActivity());
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        mOnPlateSelectedListener = new WeakReference<MenuFragment.OnPlateSelectedListener>((MenuFragment.OnPlateSelectedListener) getActivity());
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        mOnPlateSelectedListener = null;
     }
 
     @Override
@@ -187,6 +215,9 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
 
     @Override
     public void onPlateAdapterPressed(Plate plate) {
-
+        // Avisar a la Activity para que lance la Activity de detalle de plato
+        if (mOnPlateSelectedListener != null && mOnPlateSelectedListener.get() != null) {
+            mOnPlateSelectedListener.get().onPlateSelectedListener(plate);
+        }
     }
 }

@@ -16,13 +16,16 @@ import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.model.Tables;
 
-public class PlateDetailActivity extends AppCompatActivity {
+public class PlateDetailActivity extends AppCompatActivity implements PlateDetailFragment.OnPlateNotesChangedListener{
 
     public static final String EXTRA_PLATE = "com.fillingapps.ordering.activity.PlateDetailActivity.EXTRA_PLATE";
+    public static final String EXTRA_IS_UPDATING_PLATE = "com.fillingapps.ordering.activity.PlateDetailActivity.EXTRA_IS_UPDATING_PLATE";
 
     private FloatingActionButton mAddPlateButton;
     private Plate mPlate;
     private Table mSelectedTable;
+
+    private boolean mIsUpdatingPlate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class PlateDetailActivity extends AppCompatActivity {
         // Get plate/table from bundle arguments
         mPlate = (Plate) getIntent().getSerializableExtra(EXTRA_PLATE);
         mSelectedTable = (Table) getIntent().getSerializableExtra(MenuActivity.EXTRA_TABLE_NUMBER);
+        mIsUpdatingPlate = getIntent().getBooleanExtra(EXTRA_IS_UPDATING_PLATE, false);
 
         // Obtenemos la referencia al FAB para decirle qué pasa si lo pulsan
         mAddPlateButton = (FloatingActionButton) findViewById(R.id.add_plate_button);
@@ -50,7 +54,12 @@ public class PlateDetailActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     //Añadir plato a la mesa
-                    Tables.getInstance(PlateDetailActivity.this).getTable(mSelectedTable.getTableNumber()).addPlate(mPlate);
+                    if (mIsUpdatingPlate){
+                        Tables.getInstance(PlateDetailActivity.this).updatePlate(mPlate, mSelectedTable.getTableNumber());//getTable(mSelectedTable.getTableNumber()).updatePlate(mPlate);
+                    }
+                    else{
+                        Tables.getInstance(PlateDetailActivity.this).addPlate(mPlate, mSelectedTable.getTableNumber());//.getTable(mSelectedTable.getTableNumber()).addPlate(mPlate);
+                    }
 
                     //Volver a lista de platos del menu: avisando a menuActivity
                     Intent data = new Intent();
@@ -78,5 +87,10 @@ public class PlateDetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPlateNotesChanged(Plate plate) {
+        mPlate = plate;
     }
 }

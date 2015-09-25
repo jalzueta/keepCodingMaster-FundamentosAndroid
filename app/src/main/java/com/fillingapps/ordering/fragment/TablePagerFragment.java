@@ -87,7 +87,9 @@ public class TablePagerFragment extends Fragment{
 
             @Override
             public void onPageSelected(int position) {
-                mListener.onTablePageChanged(((TablePagerAdapter)mPager.getAdapter()).getTable(position), position);
+                if (mListener != null) {
+                    mListener.onTablePageChanged(((TablePagerAdapter)mPager.getAdapter()).getTable(position), position);
+                }
             }
 
             @Override

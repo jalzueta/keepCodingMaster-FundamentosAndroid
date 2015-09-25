@@ -80,6 +80,16 @@ public class Table implements Serializable, Comparable<Table>{
         mPlates.add(plate);
     }
 
+    public void updatePlate (Plate plate){
+        for (int i=0; i<mPlates.size(); i++) {
+            Plate auxPlate = mPlates.get(i);
+            if (auxPlate.isTheSame(plate)){
+                mPlates.set(i, plate);
+                break;
+            }
+        }
+    }
+
     public void removePlate (Plate plate){
         for (int i=0; i<mPlates.size(); i++) {
             Plate auxPlate = mPlates.get(i);

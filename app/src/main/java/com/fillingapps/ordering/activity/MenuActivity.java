@@ -94,7 +94,8 @@ public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPl
 
     @Override
     public void onPlateAddedToTable(Plate plate, String notes) {
-        mSelectedTable.addPlate(plate, notes);
+        Tables.getInstance(this).addPlate(plate, notes, mSelectedTable.getTableNumber());
+        //mSelectedTable.addPlate(plate, notes);
         showSnackBarPlateAdded();
     }
 
@@ -107,9 +108,9 @@ public class MenuActivity extends AppCompatActivity implements MenuFragment.OnPl
 
     @Override
     public void onPlateSelectedListener(Plate plate) {
-        Intent menuIntent = new Intent(this, PlateDetailActivity.class);
-        menuIntent.putExtra(PlateDetailActivity.EXTRA_PLATE, plate);
-        menuIntent.putExtra(EXTRA_TABLE_NUMBER, mSelectedTable);
-        startActivityForResult(menuIntent, RESULT_PLATE_ADDED);
+        Intent plateDetailIntent = new Intent(this, PlateDetailActivity.class);
+        plateDetailIntent.putExtra(PlateDetailActivity.EXTRA_PLATE, plate);
+        plateDetailIntent.putExtra(EXTRA_TABLE_NUMBER, mSelectedTable);
+        startActivityForResult(plateDetailIntent, RESULT_PLATE_ADDED);
     }
 }
