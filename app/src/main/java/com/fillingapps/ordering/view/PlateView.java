@@ -3,6 +3,7 @@ package com.fillingapps.ordering.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.fillingapps.ordering.R;
 public class PlateView extends CardView{
 
     private int mPlateImage;
+    private Bitmap mPlateBitmap;
     private String mPlateName;
     private String mPlateIngredients;
     private float mPlatePrice;
@@ -71,6 +73,11 @@ public class PlateView extends CardView{
     public void setPlateImage(int plateImage) {
         mPlateImage = plateImage;
         mPlateImageView.setImageResource(mPlateImage);
+    }
+
+    public void setPlateBitmap(Bitmap plateBitmap) {
+        mPlateBitmap = plateBitmap;
+        mPlateImageView.setImageBitmap(mPlateBitmap);
     }
 
     public String getPlateName() {

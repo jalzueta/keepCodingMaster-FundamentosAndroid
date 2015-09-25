@@ -94,8 +94,9 @@ public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesView
             mPlateView.setPlateName(plate.getName());
             mPlateView.setPlateIngredients(plate.getIngredientsString());
             mPlateView.setPlatePrice(plate.getPrice());
-            int iconID = mContext.getResources().getIdentifier(plate.getImage(), "drawable", mContext.getPackageName());
-            mPlateView.setPlateImage(iconID);
+//            int iconID = mContext.getResources().getIdentifier(plate.getImage(), "drawable", mContext.getPackageName());
+//            mPlateView.setPlateImage(iconID);
+            mPlateView.setPlateBitmap(plate.getImageBitmap());
             mPlateView.setPlateNotes(plate.getNotes());
         }
 

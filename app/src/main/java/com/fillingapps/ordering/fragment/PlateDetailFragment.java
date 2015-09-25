@@ -106,7 +106,8 @@ public class PlateDetailFragment extends Fragment{
             }
         });
 
-        mPlateImage.setImageResource(getActivity().getResources().getIdentifier(mPlate.getImage(), "drawable", getActivity().getPackageName()));
+        //mPlateImage.setImageResource(getActivity().getResources().getIdentifier(mPlate.getImage(), "drawable", getActivity().getPackageName()));
+        mPlateImage.setImageBitmap(mPlate.getImageBitmap());
 
         final ArrayAdapter<Ingredient> adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_ingredient, mPlate.getIngredients());
         mIngredientsList.setAdapter(adapter);
