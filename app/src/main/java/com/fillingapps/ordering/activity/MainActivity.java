@@ -143,8 +143,10 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
 
     private void downloadMenu() {
         // Le estamos pasando al AsyncTask el listener en el constructor (this)
-        AsyncTask<String, Integer, Plates> platesTask = new PlatesDownloader(this);
-        platesTask.execute();
+        if (Plates.getInstance().getPlates().size() == 0){
+            AsyncTask<String, Integer, Plates> platesTask = new PlatesDownloader(this);
+            platesTask.execute();
+        }
     }
 
     private void handleFAB() {
