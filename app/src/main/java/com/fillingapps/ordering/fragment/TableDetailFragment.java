@@ -138,6 +138,10 @@ public class TableDetailFragment extends Fragment implements SetFellowsDialogFra
             launchAssignFellowDialog();
             return true;
         }
+        else if (item.getItemId() == R.id.action_clean) {
+            Tables.getInstance(getActivity()).cleanTable(mCurrentTable.getTableNumber());
+            return true;
+        }
         return false;
     }
 

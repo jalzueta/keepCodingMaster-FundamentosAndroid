@@ -162,10 +162,6 @@ public class TablePagerFragment extends Fragment{
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
             return true;
         }
-        else if (item.getItemId() == R.id.action_clean) {
-            Tables.getInstance(getActivity()).cleanTable(((TablePagerAdapter)mPager.getAdapter()).getTable(mPager.getCurrentItem()).getTableNumber());
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
