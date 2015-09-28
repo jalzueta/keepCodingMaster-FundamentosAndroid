@@ -121,7 +121,9 @@ public class PlatesDownloader extends AsyncTask<String, Integer, Plates> {
     protected void onPostExecute(Plates plates) {
         super.onPostExecute(plates);
         if (mOnPlatesReceivedListener != null && mOnPlatesReceivedListener.get() != null) {
-            mOnPlatesReceivedListener.get().onPlatesReceivedListener();
+            if (plates.getPlates().size()>0){
+                mOnPlatesReceivedListener.get().onPlatesReceivedListener();
+            }
         }
     }
 

@@ -11,12 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fillingapps.ordering.R;
+import com.fillingapps.ordering.fragment.MenuFragment;
 import com.fillingapps.ordering.fragment.TableDetailFragment;
 import com.fillingapps.ordering.fragment.TablePagerFragment;
+import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Table;
 import com.fillingapps.ordering.model.Tables;
 
-public class TableDetailActivity extends AppCompatActivity implements TablePagerFragment.OnTablePageChangedListener{
+public class TableDetailActivity extends AppCompatActivity implements TablePagerFragment.OnTablePageChangedListener, MenuFragment.OnPlateSelectedListener{
 
     private FloatingActionButton mAddPlateButton;
     private Table mSelectedTable;
@@ -88,5 +90,15 @@ public class TableDetailActivity extends AppCompatActivity implements TablePager
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onPlateSelectedListener(Plate plate) {
+        Intent plateDetailIntent = new Intent(this, PlateDetailActivity.class);
+        plateDetailIntent.putExtra(PlateDetailActivity.EXTRA_PLATE, plate);
+        plateDetailIntent.putExtra(MenuActivity.EXTRA_TABLE_NUMBER, mSelectedTable);
+        plateDetailIntent.putExtra(PlateDetailActivity.EXTRA_IS_UPDATING_PLATE, true);
+//        startActivityForResult(menuIntent, RESULT_PLATE_UPDATED);
+        startActivity(plateDetailIntent);
     }
 }
