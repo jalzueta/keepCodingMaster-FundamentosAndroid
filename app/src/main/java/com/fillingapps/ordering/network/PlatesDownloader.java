@@ -83,23 +83,6 @@ public class PlatesDownloader extends AsyncTask<String, Integer, Plates> {
                     String description = plate.getString("description");
                     float price = (float)plate.getDouble("price");
 
-                    Bitmap imageBitmap = null;
-                    InputStream is = null;
-                    try {
-                        is = new URL(imageUrl).openStream();
-                        imageBitmap = BitmapFactory.decodeStream(is);
-                    }catch (Exception ex){
-
-                    }finally {
-                        try{
-                            if (is != null){
-                                is.close();
-                                Log.i("tag", "Bitmap downloaded: " + i);
-                            }
-                        }
-                        catch (Exception ex){}
-                    }
-
                     JSONArray allergensArray = plate.getJSONArray("allergens");
                     LinkedList<Allergen> allergens = new LinkedList<>();
                     for (int j = 0; j < allergensArray.length(); j++) {
@@ -116,7 +99,7 @@ public class PlatesDownloader extends AsyncTask<String, Integer, Plates> {
                         String iName = ingredient.getString("name");
                         ingredients.add(new Ingredient(iName));
                     }
-                    plates.addPlate(new Plate(0, identifier, name, type, image, imageUrl, imageBitmap, description, ingredients, allergens, price, ""));
+                    plates.addPlate(new Plate(0, identifier, name, type, image, imageUrl, description, ingredients, allergens, price, ""));
                 }
             }
         } catch (Exception e) {

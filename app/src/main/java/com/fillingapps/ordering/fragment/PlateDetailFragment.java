@@ -25,6 +25,7 @@ import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.model.Ingredient;
 import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Tables;
+import com.fillingapps.ordering.network.ImageDownloader;
 
 import java.lang.ref.WeakReference;
 
@@ -106,8 +107,9 @@ public class PlateDetailFragment extends Fragment{
             }
         });
 
-        //mPlateImage.setImageResource(getActivity().getResources().getIdentifier(mPlate.getImage(), "drawable", getActivity().getPackageName()));
-        mPlateImage.setImageBitmap(mPlate.getImageBitmap());
+        ImageDownloader.ImageDownloaderParams params = new ImageDownloader.ImageDownloaderParams(mPlate.getImageUrl(), mPlate.getImage());
+        ImageDownloader imageDownloader = new ImageDownloader(getActivity(), mPlateImage, R.drawable.no_image);
+        imageDownloader.execute(params);
 
         final ArrayAdapter<Ingredient> adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_ingredient, mPlate.getIngredients());
         mIngredientsList.setAdapter(adapter);

@@ -13,21 +13,19 @@ public class Plate implements Serializable, Comparable<Plate>{
     private String mType;
     private String mImage;
     private String mImageUrl;
-    private Bitmap mImageBitmap;
     private String mDescription;
     private List<Ingredient> mIngredients;
     private List<Allergen> mAllergens;
     private float mPrice;
     private String mNotes;
 
-    public Plate(int id, int menuId, String name, String type, String image, String imageUrl, Bitmap imageBitmap, String description, List<Ingredient> ingredients, List<Allergen> allergens, float price, String notes) {
+    public Plate(int id, int menuId, String name, String type, String image, String imageUrl, String description, List<Ingredient> ingredients, List<Allergen> allergens, float price, String notes) {
         mId = id;
         mMenuId = menuId;
         mName = name;
         this.mType = type;
         this.mImage = image;
         this.mImageUrl = imageUrl;
-        this.mImageBitmap = imageBitmap;
         this.mDescription = description;
         mIngredients = ingredients;
         mAllergens = allergens;
@@ -47,10 +45,6 @@ public class Plate implements Serializable, Comparable<Plate>{
         return mMenuId;
     }
 
-    public void setMenuId(int menuId) {
-        mMenuId = menuId;
-    }
-
     public String getName() {
         return mName;
     }
@@ -59,20 +53,12 @@ public class Plate implements Serializable, Comparable<Plate>{
         mName = name;
     }
 
-    public String getType() {
-        return mType;
+    public String getImageUrl() {
+        return mImageUrl;
     }
 
-    public void setType(String type) {
-        this.mType = type;
-    }
-
-//    public String getImage() {
-//        return mImage;
-//    }
-
-    public void setImage(String image) {
-        this.mImage = image;
+    public String getImage() {
+        return mImage;
     }
 
     public List<Ingredient> getIngredients() {
@@ -147,19 +133,4 @@ public class Plate implements Serializable, Comparable<Plate>{
         return (this.getMenuId() == plate.getMenuId());
     }
 
-    public String getImageUrl() {
-        return mImageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        mImageUrl = imageUrl;
-    }
-
-    public Bitmap getImageBitmap() {
-        return mImageBitmap;
-    }
-
-    public void setImageBitmap(Bitmap imageBitmap) {
-        mImageBitmap = imageBitmap;
-    }
 }

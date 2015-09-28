@@ -22,7 +22,6 @@ public class PlateView extends CardView{
     private String mPlateIngredients;
     private float mPlatePrice;
     private String mPlateNotes;
-
     private ImageView mPlateImageView;
     private TextView mNameTextView;
     private TextView mIngredientsTextView;
@@ -122,5 +121,9 @@ public class PlateView extends CardView{
             mNotesTextView.setVisibility(View.VISIBLE);
             mNotesTitleTextView.setVisibility(View.VISIBLE);
         }
+    }
+
+    public ImageView getPlateImageView() {
+        return mPlateImageView;
     }
 }
