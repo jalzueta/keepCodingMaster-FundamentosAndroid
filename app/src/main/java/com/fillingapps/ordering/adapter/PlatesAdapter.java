@@ -8,8 +8,10 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.model.Plate;
 import com.fillingapps.ordering.model.Plates;
+import com.fillingapps.ordering.network.ImageDownloader;
 import com.fillingapps.ordering.view.PlateView;
 
 import java.lang.ref.WeakReference;
@@ -94,9 +96,11 @@ public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesView
             mPlateView.setPlateName(plate.getName());
             mPlateView.setPlateIngredients(plate.getIngredientsString());
             mPlateView.setPlatePrice(plate.getPrice());
-            int iconID = mContext.getResources().getIdentifier(plate.getImage(), "drawable", mContext.getPackageName());
-            mPlateView.setPlateImage(iconID);
             mPlateView.setPlateNotes(plate.getNotes());
+
+            ImageDownloader.ImageDownloaderParams params = new ImageDownloader.ImageDownloaderParams(plate.getImageUrl(), plate.getImage());
+            ImageDownloader imageDownloader = new ImageDownloader(mContext, mPlateView.getPlateImageView(), R.drawable.no_image);
+            imageDownloader.execute(params);
         }
 
         @Override

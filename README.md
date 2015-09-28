@@ -71,6 +71,8 @@ Además, pulsando sobre cualquiera de los items de la lista, se da paso a `Plate
 
 Fragment que representa la carta de platos disponibles (descargados al iniciar la App), mediante una estructura con RecyclerView que hace uso de la View personalizada nombrada anteriormente, **`PlateView`**.
 
+Las imágenes son descargadas desde el servidor también, a través de la clase `ImageDownloader`, de forma asíncrona.
+
 El fragment tiene un **`Menú`** que permite volver a descargar la carta a través de un servicio web, por si ha habido algún cambio. Para ello se hace uso de la clase `PlatesDownloader`.
 
 Cada item del RecyclerView está dotado de un **`menú contextual`** que permite añadir dicho plato a la mesa en cuestión, previa introducción de unas *notas* a través de un DialogFragment llamado `SetPlateNotesDialogFragment`.
@@ -82,9 +84,3 @@ Además, al pulsar sobre cualquiera de los platos, se dará paso al a la `PlateD
 * **`PlateDetailFragment`**:
 
 Fragment que representa toda la información de un plato de la carta. La distribución del contenido varía en función del tamaño de pantalla del dispositivo.
-
-
-####Pendiente
--- 
-
-Descarga de imagenes del menu desde servidor y cacheado de las mismas `(Branch: images)`

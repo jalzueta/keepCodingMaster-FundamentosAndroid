@@ -1,6 +1,9 @@
 package com.fillingapps.ordering.network;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.fillingapps.ordering.model.Allergen;
 import com.fillingapps.ordering.model.Ingredient;
@@ -33,7 +36,7 @@ public class PlatesDownloader extends AsyncTask<String, Integer, Plates> {
         URL url;
         InputStream input = null;
         try {
-            url = new URL("http://www.mocky.io/v2/56013c1d9635786e150aa3a4");
+            url = new URL("http://www.mocky.io/v2/560562dc14d5de2a202a8259");
             HttpURLConnection con = (HttpURLConnection) (url.openConnection());
             con.setConnectTimeout(5000);
             con.connect();
@@ -76,6 +79,7 @@ public class PlatesDownloader extends AsyncTask<String, Integer, Plates> {
                     String name = plate.getString("name");
                     String type = plate.getString("type");
                     String image = plate.getString("image");
+                    String imageUrl = plate.getString("image_url");
                     String description = plate.getString("description");
                     float price = (float)plate.getDouble("price");
 
@@ -95,7 +99,7 @@ public class PlatesDownloader extends AsyncTask<String, Integer, Plates> {
                         String iName = ingredient.getString("name");
                         ingredients.add(new Ingredient(iName));
                     }
-                    plates.addPlate(new Plate(0, identifier, name, type, image, description, ingredients, allergens, price, ""));
+                    plates.addPlate(new Plate(0, identifier, name, type, image, imageUrl, description, ingredients, allergens, price, ""));
                 }
             }
         } catch (Exception e) {

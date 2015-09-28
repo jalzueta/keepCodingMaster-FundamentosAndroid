@@ -1,5 +1,7 @@
 package com.fillingapps.ordering.model;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -8,21 +10,23 @@ public class Plate implements Serializable, Comparable<Plate>{
     private int mId;
     private int mMenuId;
     private String mName;
-    private String type;
-    private String image;
-    private String description;
+    private String mType;
+    private String mImage;
+    private String mImageUrl;
+    private String mDescription;
     private List<Ingredient> mIngredients;
     private List<Allergen> mAllergens;
     private float mPrice;
     private String mNotes;
 
-    public Plate(int id, int menuId, String name, String type, String image, String description, List<Ingredient> ingredients, List<Allergen> allergens, float price, String notes) {
+    public Plate(int id, int menuId, String name, String type, String image, String imageUrl, String description, List<Ingredient> ingredients, List<Allergen> allergens, float price, String notes) {
         mId = id;
         mMenuId = menuId;
         mName = name;
-        this.type = type;
-        this.image = image;
-        this.description = description;
+        this.mType = type;
+        this.mImage = image;
+        this.mImageUrl = imageUrl;
+        this.mDescription = description;
         mIngredients = ingredients;
         mAllergens = allergens;
         mPrice = price;
@@ -41,10 +45,6 @@ public class Plate implements Serializable, Comparable<Plate>{
         return mMenuId;
     }
 
-    public void setMenuId(int menuId) {
-        mMenuId = menuId;
-    }
-
     public String getName() {
         return mName;
     }
@@ -53,20 +53,12 @@ public class Plate implements Serializable, Comparable<Plate>{
         mName = name;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public String getImageUrl() {
+        return mImageUrl;
     }
 
     public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
+        return mImage;
     }
 
     public List<Ingredient> getIngredients() {
@@ -94,11 +86,11 @@ public class Plate implements Serializable, Comparable<Plate>{
     }
 
     public String getDescription() {
-        return description;
+        return mDescription;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.mDescription = description;
     }
 
     public float getPrice() {
@@ -140,4 +132,5 @@ public class Plate implements Serializable, Comparable<Plate>{
     public boolean isTheSame (Plate plate){
         return (this.getMenuId() == plate.getMenuId());
     }
+
 }
