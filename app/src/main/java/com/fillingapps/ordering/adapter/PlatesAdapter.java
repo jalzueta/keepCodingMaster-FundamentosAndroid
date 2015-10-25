@@ -27,6 +27,7 @@ public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesView
     private Context mContext;
     private int mContextMenuLayoutId;
     private Plate mLongPressPlate;
+    private Plate mPressPlate;
 
     public PlatesAdapter(List<Plate> plates, Context context, int contextMenuLayoutId, OnPlateAdapterPressedListener onPlateAdapterPressedListener) {
         super();
@@ -63,7 +64,7 @@ public class PlatesAdapter extends RecyclerView.Adapter<PlatesAdapter.PlatesView
             public void onClick(View v) {
                 mLongPressPlate = mPlates.get(holder.getAdapterPosition());
                 if (mOnPlateAdapterPressedListener != null && mOnPlateAdapterPressedListener.get() != null) {
-                    // Le pasamos al fragment el plato que ha lanzado el menu contextual
+                    // Le pasamos al fragment el plato que se ha pulsado
                     mOnPlateAdapterPressedListener.get().onPlateAdapterPressed(mLongPressPlate);
                 }
             }
