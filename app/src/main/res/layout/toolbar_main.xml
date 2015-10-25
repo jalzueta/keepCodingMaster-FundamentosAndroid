@@ -5,62 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/background_material_dark"
     android:elevation="@dimen/toolbar_elevation"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    android:background="@color/navigation_bar_background"
-    app:popupTheme="@style/Theme.AppCompat.Light">
-
-    <ImageButton
-        android:id="@+id/menuButton"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_gravity="left"
-        android:layout_centerVertical="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/btn_nav_menu_off"
-        android:scaleType="centerInside"
-        android:padding="8dp"
-        android:contentDescription="@string/content_description"
-        android:visibility="visible" />
-
-    <ImageButton
-        android:id="@+id/backButton"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_centerVertical="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/btn_nav_back_off"
-        android:scaleType="centerInside"
-        android:padding="8dp"
-        android:contentDescription="@string/content_description"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/toolbar_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:text="Mis citas"
-        android:textColor="@android:color/white"/>
-
-    <ImageButton
-        android:id="@+id/infoButton"
-        android:layout_width="44dp"
-        android:layout_height="44dp"
-        android:layout_gravity="right"
-        android:layout_centerVertical="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/btn_nav_info_off"
-        android:scaleType="centerInside"
-        android:padding="8dp"
-        android:visibility="visible"
-        android:contentDescription="@string/content_description" />
-
-</android.support.v7.widget.Toolbar>
+    app:popupTheme="@style/Theme.AppCompat.Light"/>

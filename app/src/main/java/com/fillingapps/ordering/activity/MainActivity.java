@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 
 import com.fillingapps.ordering.R;
 import com.fillingapps.ordering.fragment.MenuFragment;
@@ -44,12 +43,6 @@ public class MainActivity extends AppCompatActivity implements PlatesDownloader.
         // Asignamos la Toolbar como "ActionBar"
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        ImageButton menuButton = (ImageButton) findViewById(R.id.menuButton);
-        ImageButton backButton = (ImageButton) findViewById(R.id.backButton);
-        menuButton.setVisibility(View.GONE);
-        backButton.setVisibility(View.VISIBLE);
 
         //Inicializamos la mesa seleccionada con la primera mesa disponible
         mSelectedTable = Tables.getInstance(this).getTables().get(0);

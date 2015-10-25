@@ -38,5 +38,4 @@
     <string name="plate_description_title">Descripción:</string>
     <string name="plate_notes_title">Notas:</string>
     <string name="bill_format">%.2f €</string>
-    <string name="content_description">Imagen no disponible</string>
 </resources>
